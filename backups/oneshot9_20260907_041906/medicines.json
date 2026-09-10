@@ -1,0 +1,842 @@
+[
+  {
+    "id": 1781527537635,
+    "name": "Acetylcysteine",
+    "quantity": 200,
+    "price": 6.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781527501481,
+    "name": "Albendazole",
+    "quantity": 250,
+    "price": 3.5,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781528157266,
+    "name": "Allopurinol",
+    "quantity": 178,
+    "price": 6,
+    "expiry": "2027-09-15"
+  },
+  {
+    "id": 1781528208856,
+    "name": "Amlodipine",
+    "quantity": 400,
+    "price": 4,
+    "expiry": "2028-02-15"
+  },
+  {
+    "id": 1781528289325,
+    "name": "Ambroxol",
+    "quantity": 199,
+    "price": 4,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527609836,
+    "name": "Amikacin",
+    "quantity": 100,
+    "price": 12,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527645613,
+    "name": "Amitriptyline",
+    "quantity": 150,
+    "price": 5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781527737614,
+    "name": "Amoxicillin",
+    "quantity": 300,
+    "price": 8.5,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781528261450,
+    "name": "Apixaban",
+    "quantity": 80,
+    "price": 65,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781527468568,
+    "name": "ArtemetherLumefantrine",
+    "quantity": 180,
+    "price": 9.5,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781528236311,
+    "name": "ArtificialTears",
+    "quantity": 250,
+    "price": 5,
+    "expiry": "2028-01-31"
+  },
+  {
+    "id": 1781527491131,
+    "name": "Aspirin",
+    "quantity": 400,
+    "price": 2,
+    "expiry": "2028-02-01"
+  },
+  {
+    "id": 1781527672723,
+    "name": "Atenolol",
+    "quantity": 300,
+    "price": 3,
+    "expiry": "2027-10-01"
+  },
+  {
+    "id": 1781527832070,
+    "name": "Atorvastatin",
+    "quantity": 300,
+    "price": 12,
+    "expiry": "2028-01-15"
+  },
+  {
+    "id": 1781527860827,
+    "name": "Augmentin",
+    "quantity": 250,
+    "price": 15,
+    "expiry": "2027-08-20"
+  },
+  {
+    "id": 1781528294491,
+    "name": "Azithromycin",
+    "quantity": 200,
+    "price": 12.5,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781528454718,
+    "name": "Beclomethasone",
+    "quantity": 120,
+    "price": 17.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528046295,
+    "name": "Bisacodyl",
+    "quantity": 200,
+    "price": 3,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781528237076,
+    "name": "Bisoprolol",
+    "quantity": 250,
+    "price": 6.5,
+    "expiry": "2027-11-01"
+  },
+  {
+    "id": 1781528119521,
+    "name": "Brimonidine",
+    "quantity": 100,
+    "price": 22,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781527933295,
+    "name": "Bromhexine",
+    "quantity": 180,
+    "price": 3.5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781527696932,
+    "name": "Budesonide",
+    "quantity": 120,
+    "price": 20,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527798248,
+    "name": "CalciumCarbonate",
+    "quantity": 250,
+    "price": 3.5,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527574183,
+    "name": "Carbamazepine",
+    "quantity": 180,
+    "price": 7.5,
+    "expiry": "2027-10-01"
+  },
+  {
+    "id": 1781528078064,
+    "name": "Carbimazole",
+    "quantity": 150,
+    "price": 7,
+    "expiry": "2027-11-25"
+  },
+  {
+    "id": 1781528131423,
+    "name": "Cefalexin",
+    "quantity": 250,
+    "price": 9,
+    "expiry": "2027-11-20"
+  },
+  {
+    "id": 1781527837759,
+    "name": "Ceftriaxone",
+    "quantity": 150,
+    "price": 20,
+    "expiry": "2027-10-01"
+  },
+  {
+    "id": 1781528248050,
+    "name": "Cefuroxime",
+    "quantity": 200,
+    "price": 15,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527794186,
+    "name": "Cetirizine",
+    "quantity": 350,
+    "price": 2.5,
+    "expiry": "2028-01-01"
+  },
+  {
+    "id": 1781527755870,
+    "name": "Chlorpheniramine",
+    "quantity": 250,
+    "price": 2,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781528198414,
+    "name": "Ciprofloxacin",
+    "quantity": 180,
+    "price": 10,
+    "expiry": "2027-09-25"
+  },
+  {
+    "id": 1781528233733,
+    "name": "Clopidogrel",
+    "quantity": 220,
+    "price": 10.5,
+    "expiry": "2027-10-10"
+  },
+  {
+    "id": 1781527814754,
+    "name": "Clotrimazole",
+    "quantity": 200,
+    "price": 4.5,
+    "expiry": "2027-11-01"
+  },
+  {
+    "id": 1781527656162,
+    "name": "Codeine",
+    "quantity": 100,
+    "price": 8.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528438572,
+    "name": "Colchicine",
+    "quantity": 120,
+    "price": 5.5,
+    "expiry": "2027-10-20"
+  },
+  {
+    "id": 1781527597227,
+    "name": "Diazepam",
+    "quantity": 100,
+    "price": 8,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781527951140,
+    "name": "Diclofenac",
+    "quantity": 300,
+    "price": 5.5,
+    "expiry": "2027-10-10"
+  },
+  {
+    "id": 1781527746219,
+    "name": "Domperidone",
+    "quantity": 180,
+    "price": 4.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528333633,
+    "name": "Doxycycline",
+    "quantity": 220,
+    "price": 6.5,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781527926163,
+    "name": "Duloxetine",
+    "quantity": 120,
+    "price": 14,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781528363769,
+    "name": "Enalapril",
+    "quantity": 300,
+    "price": 4.5,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781528282223,
+    "name": "Esomeprazole",
+    "quantity": 150,
+    "price": 9,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781527643160,
+    "name": "FerrousSulphate",
+    "quantity": 300,
+    "price": 2.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528096446,
+    "name": "Fluconazole",
+    "quantity": 150,
+    "price": 8.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528409283,
+    "name": "Fluoxetine",
+    "quantity": 180,
+    "price": 8.5,
+    "expiry": "2027-10-20"
+  },
+  {
+    "id": 1781527923312,
+    "name": "FolicAcid",
+    "quantity": 350,
+    "price": 1.5,
+    "expiry": "2028-01-15"
+  },
+  {
+    "id": 1781528374541,
+    "name": "Furosemide",
+    "quantity": 200,
+    "price": 3,
+    "expiry": "2027-08-15"
+  },
+  {
+    "id": 1781527838351,
+    "name": "Gabapentin",
+    "quantity": 180,
+    "price": 12.5,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527518808,
+    "name": "Gentamicin",
+    "quantity": 120,
+    "price": 8,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781527704878,
+    "name": "Glibenclamide",
+    "quantity": 300,
+    "price": 2.5,
+    "expiry": "2027-11-20"
+  },
+  {
+    "id": 1781528166081,
+    "name": "Gliclazide",
+    "quantity": 250,
+    "price": 5.5,
+    "expiry": "2027-12-10"
+  },
+  {
+    "id": 1781528112390,
+    "name": "Guaifenesin",
+    "quantity": 220,
+    "price": 4.5,
+    "expiry": "2027-10-15"
+  },
+  {
+    "id": 1781528020487,
+    "name": "Haloperidol",
+    "quantity": 120,
+    "price": 6,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781528207614,
+    "name": "Hydrochlorothiazide",
+    "quantity": 220,
+    "price": 3.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528302781,
+    "name": "Hydrocortisone",
+    "quantity": 100,
+    "price": 8.5,
+    "expiry": "2027-10-30"
+  },
+  {
+    "id": 1781528336473,
+    "name": "Hydroxychloroquine",
+    "quantity": 180,
+    "price": 12,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781527795375,
+    "name": "HyoscineButylbromide",
+    "quantity": 120,
+    "price": 5.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781527806801,
+    "name": "Ibuprofen",
+    "quantity": 450,
+    "price": 3,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781528329392,
+    "name": "Imipenem",
+    "quantity": 50,
+    "price": 110,
+    "expiry": "2027-09-15"
+  },
+  {
+    "id": 1781527782107,
+    "name": "InsulinActrapid",
+    "quantity": 80,
+    "price": 45,
+    "expiry": "2027-08-31"
+  },
+  {
+    "id": 1781528292244,
+    "name": "InsulinMixtard",
+    "quantity": 80,
+    "price": 50,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781527992312,
+    "name": "Ketoconazole",
+    "quantity": 100,
+    "price": 7,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781527691460,
+    "name": "Lactulose",
+    "quantity": 150,
+    "price": 6.5,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527653805,
+    "name": "Latanoprost",
+    "quantity": 80,
+    "price": 35,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527743340,
+    "name": "Levetiracetam",
+    "quantity": 120,
+    "price": 18,
+    "expiry": "2027-11-01"
+  },
+  {
+    "id": 1781528123696,
+    "name": "Levothyroxine",
+    "quantity": 200,
+    "price": 5,
+    "expiry": "2027-10-25"
+  },
+  {
+    "id": 1781527622858,
+    "name": "Linezolid",
+    "quantity": 70,
+    "price": 95,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528030074,
+    "name": "Lisinopril",
+    "quantity": 250,
+    "price": 5.5,
+    "expiry": "2027-12-20"
+  },
+  {
+    "id": 1781527907063,
+    "name": "Loperamide",
+    "quantity": 200,
+    "price": 2.5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781528249016,
+    "name": "Loratadine",
+    "quantity": 300,
+    "price": 3,
+    "expiry": "2027-12-20"
+  },
+  {
+    "id": 1781527508046,
+    "name": "Lorazepam",
+    "quantity": 80,
+    "price": 12,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781527474418,
+    "name": "Losartan",
+    "quantity": 350,
+    "price": 8,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527728605,
+    "name": "MagnesiumOxide",
+    "quantity": 180,
+    "price": 4.5,
+    "expiry": "2027-11-01"
+  },
+  {
+    "id": 1781528140574,
+    "name": "Mebendazole",
+    "quantity": 220,
+    "price": 3,
+    "expiry": "2027-10-30"
+  },
+  {
+    "id": 1781528292640,
+    "name": "Meloxicam",
+    "quantity": 220,
+    "price": 5.5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781528137269,
+    "name": "Meropenem",
+    "quantity": 50,
+    "price": 120,
+    "expiry": "2027-08-15"
+  },
+  {
+    "id": 1781528336275,
+    "name": "Metformin",
+    "quantity": 500,
+    "price": 3.5,
+    "expiry": "2028-01-31"
+  },
+  {
+    "id": 1781527841547,
+    "name": "Methotrexate",
+    "quantity": 80,
+    "price": 18,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527550259,
+    "name": "Metronidazole",
+    "quantity": 220,
+    "price": 4.5,
+    "expiry": "2028-01-15"
+  },
+  {
+    "id": 1781528090636,
+    "name": "Miconazole",
+    "quantity": 180,
+    "price": 4.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781527731664,
+    "name": "Mometasone",
+    "quantity": 100,
+    "price": 18,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528079887,
+    "name": "Montelukast",
+    "quantity": 120,
+    "price": 11,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781528152403,
+    "name": "Multivitamin",
+    "quantity": 220,
+    "price": 5.5,
+    "expiry": "2028-01-01"
+  },
+  {
+    "id": 1781528343328,
+    "name": "Naproxen",
+    "quantity": 250,
+    "price": 4.5,
+    "expiry": "2027-10-20"
+  },
+  {
+    "id": 1781527559466,
+    "name": "Nystatin",
+    "quantity": 150,
+    "price": 5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528422573,
+    "name": "Olanzapine",
+    "quantity": 100,
+    "price": 15,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781527769328,
+    "name": "Omeprazole",
+    "quantity": 250,
+    "price": 7.5,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781527651104,
+    "name": "Ondansetron",
+    "quantity": 150,
+    "price": 8.5,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781528365430,
+    "name": "ORS",
+    "quantity": 500,
+    "price": 1.5,
+    "expiry": "2028-01-31"
+  },
+  {
+    "id": 1781527806387,
+    "name": "Pantoprazole",
+    "quantity": 200,
+    "price": 8,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528090475,
+    "name": "Paracetamol",
+    "quantity": 500,
+    "price": 2.5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781527533134,
+    "name": "Phenylephrine",
+    "quantity": 150,
+    "price": 5.5,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781527555094,
+    "name": "Phenytoin",
+    "quantity": 150,
+    "price": 6.5,
+    "expiry": "2027-09-15"
+  },
+  {
+    "id": 1781528017219,
+    "name": "PovidoneIodine",
+    "quantity": 200,
+    "price": 3.5,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781528277618,
+    "name": "Prednisolone",
+    "quantity": 200,
+    "price": 5,
+    "expiry": "2027-09-15"
+  },
+  {
+    "id": 1781527998338,
+    "name": "Pregabalin",
+    "quantity": 150,
+    "price": 16,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781528238971,
+    "name": "Pseudoephedrine",
+    "quantity": 120,
+    "price": 6,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781527780325,
+    "name": "Quinine",
+    "quantity": 120,
+    "price": 8,
+    "expiry": "2027-09-15"
+  },
+  {
+    "id": 1781527760880,
+    "name": "Ranitidine",
+    "quantity": 180,
+    "price": 4,
+    "expiry": "2027-08-31"
+  },
+  {
+    "id": 1781527908736,
+    "name": "Risperidone",
+    "quantity": 120,
+    "price": 12,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781528038227,
+    "name": "Rivaroxaban",
+    "quantity": 80,
+    "price": 60,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781528299055,
+    "name": "Rosuvastatin",
+    "quantity": 180,
+    "price": 15,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781527772295,
+    "name": "Salbutamol",
+    "quantity": 150,
+    "price": 6.5,
+    "expiry": "2027-11-10"
+  },
+  {
+    "id": 1781527683184,
+    "name": "Sertraline",
+    "quantity": 200,
+    "price": 10,
+    "expiry": "2027-11-20"
+  },
+  {
+    "id": 1781527893242,
+    "name": "Simvastatin",
+    "quantity": 250,
+    "price": 8.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528091729,
+    "name": "SodiumValproate",
+    "quantity": 150,
+    "price": 10,
+    "expiry": "2027-12-01"
+  },
+  {
+    "id": 1781528120945,
+    "name": "Spironolactone",
+    "quantity": 180,
+    "price": 4.5,
+    "expiry": "2027-09-30"
+  },
+  {
+    "id": 1781527753901,
+    "name": "Sulfasalazine",
+    "quantity": 150,
+    "price": 14,
+    "expiry": "2027-11-15"
+  },
+  {
+    "id": 1781527875409,
+    "name": "Tetracycline",
+    "quantity": 180,
+    "price": 5.5,
+    "expiry": "2027-09-20"
+  },
+  {
+    "id": 1781528417804,
+    "name": "Terbinafine",
+    "quantity": 120,
+    "price": 11,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781527942332,
+    "name": "Timolol",
+    "quantity": 150,
+    "price": 9.5,
+    "expiry": "2027-10-31"
+  },
+  {
+    "id": 1781527886770,
+    "name": "Tramadol",
+    "quantity": 120,
+    "price": 9,
+    "expiry": "2027-11-20"
+  },
+  {
+    "id": 1781527735005,
+    "name": "Valsartan",
+    "quantity": 250,
+    "price": 10,
+    "expiry": "2027-10-20"
+  },
+  {
+    "id": 1781527812990,
+    "name": "Vancomycin",
+    "quantity": 60,
+    "price": 75,
+    "expiry": "2027-12-31"
+  },
+  {
+    "id": 1781528192316,
+    "name": "Venlafaxine",
+    "quantity": 100,
+    "price": 13.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528185617,
+    "name": "VitaminBComplex",
+    "quantity": 300,
+    "price": 4,
+    "expiry": "2027-11-30"
+  },
+  {
+    "id": 1781528393730,
+    "name": "VitaminC",
+    "quantity": 400,
+    "price": 2,
+    "expiry": "2028-02-28"
+  },
+  {
+    "id": 1781527990561,
+    "name": "VitaminD3",
+    "quantity": 250,
+    "price": 5.5,
+    "expiry": "2027-12-15"
+  },
+  {
+    "id": 1781528196816,
+    "name": "Warfarin",
+    "quantity": 120,
+    "price": 7.5,
+    "expiry": "2027-09-01"
+  },
+  {
+    "id": 1781528038580,
+    "name": "ZincSulphate",
+    "quantity": 300,
+    "price": 2.5,
+    "expiry": "2027-12-31"
+  }
+]

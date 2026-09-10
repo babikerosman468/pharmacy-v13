@@ -1,0 +1,7 @@
+Model,Metric,Value,Status
+Demand Forecasting,MAE,,NOT_READY
+Demand Forecasting,RMSE,,NOT_READY
+Risk Classification,AUROC,,NOT_READY
+Risk Classification,Precision,,NOT_READY
+Risk Classification,Recall,,NOT_READY
+Risk Classification,F1,,NOT_READY

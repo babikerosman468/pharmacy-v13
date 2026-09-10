@@ -1,0 +1,13 @@
+Metric,Value
+MedicineCount,120
+SupplierCount,2
+CurrentStockUnits,23494
+CurrentStockValue,192374.5
+PurchasedUnits,23
+ProcurementCost,129.5
+MatchedSoldUnits,9
+UnmatchedSales,1
+ObservationStart,2026-06-14
+ObservationEnd,2026-09-07
+ObservationDays,86
+CriticalExpiryItems,0

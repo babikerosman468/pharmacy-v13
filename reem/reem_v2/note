@@ -1,0 +1,19 @@
+IDEALBUILD
+   ↓
+Synthetic pharmacy world
+   ↓
+model.py
+   ↓
+200 model evaluations
+   ↓
+50 medicine forecasts
+   ↓
+report_data.py
+   ↓
+Analytical summaries
+   ↓
+demand_report.tex
+   ↓
+TikZ + PGFPlots
+   ↓
+demand_report.pdf  ✓

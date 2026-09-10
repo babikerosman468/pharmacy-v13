@@ -1,0 +1,16 @@
+Metric,Value
+MedicineCount,120
+SupplierCount,2
+CurrentStockUnits,23494.0
+CurrentStockValue,192374.5
+PurchasedUnits,23.0
+ProcurementCost,129.5
+SoldUnits,9.0
+SalesRevenue,55.0
+CriticalExpiryItems,0
+ReorderReviewItems,0
+ABC_A_Items,1
+UnmatchedSalesRecords,1
+SalesObservationStart,2026-06-14
+SalesObservationEnd,2026-09-07
+SalesObservationDays,86

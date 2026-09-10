@@ -1,0 +1,190 @@
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{red},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numbersep=8pt,
+    showstringspaces=false
+}
+
+\title{\Huge\bfseries Operations and Supply Management\\[0.3cm]
+\Large Data Analysis Using Python}
+
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Operations and Supply Management involves planning, controlling, and optimizing the flow of materials, information, and products from suppliers to customers. Python provides powerful tools for analyzing supply chain data, evaluating supplier performance, monitoring inventory, and supporting decision making.
+
+\section{Objectives}
+
+The objectives of this analysis are:
+
+\begin{itemize}
+\item Clean operational data.
+\item Calculate important Key Performance Indicators (KPIs).
+\item Evaluate supplier performance.
+\item Analyze inventory status.
+\item Analyze product sales.
+\item Produce graphical reports.
+\item Export summarized reports.
+\end{itemize}
+
+\section{Required Python Libraries}
+
+\begin{lstlisting}[style=pythonstyle]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+\end{lstlisting}
+
+\section{Input Dataset}
+
+The analysis assumes a CSV file named
+
+\begin{center}
+\texttt{supply\_chain.csv}
+\end{center}
+
+containing the following variables.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+Variable & Description\\
+\midrule
+Order_ID & Order identification\\
+Order_Date & Date of order\\
+Delivery_Date & Date delivered\\
+Supplier & Supplier name\\
+Product & Product name\\
+Quantity & Units ordered\\
+Unit_Cost & Cost per unit\\
+Revenue & Total revenue\\
+Average_Inventory & Average inventory level\\
+Current_Stock & Current stock\\
+Reorder_Level & Reorder threshold\\
+Warehouse & Warehouse location\\
+Customer & Customer name\\
+Region & Sales region\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data Cleaning}
+
+Typical preprocessing includes
+
+\begin{itemize}
+\item Removing duplicate records.
+\item Converting dates.
+\item Calculating lead time.
+\item Handling missing values.
+\end{itemize}
+
+\section{Key Performance Indicators}
+
+The following KPIs are calculated.
+
+\begin{itemize}
+\item Total Orders
+\item Total Units Sold
+\item Total Revenue
+\item Average Lead Time
+\item Average Unit Cost
+\end{itemize}
+
+\section{Supplier Performance}
+
+Supplier performance is summarized using
+
+\begin{itemize}
+\item Average lead time
+\item Total quantity supplied
+\item Total revenue generated
+\end{itemize}
+
+\section{Inventory Analysis}
+
+Inventory turnover is computed as
+
+\[
+\text{Inventory Turnover}
+=
+\frac{\text{Quantity Sold}}
+{\text{Average Inventory}}
+\]
+
+Stock status is classified as
+
+\begin{itemize}
+\item Reorder
+\item Sufficient
+\end{itemize}
+
+depending on the current stock level.
+
+\section{Monthly Sales Analysis}
+
+Monthly revenue is obtained by grouping orders according to month and summing revenue values.
+
+\section{Visualization}
+
+Python generates several useful graphs including
+
+\begin{itemize}
+\item Average Supplier Lead Time
+\item Monthly Revenue Trend
+\item Top Products by Revenue
+\end{itemize}
+
+These plots assist managers in identifying trends and improving operational performance.
+
+\section{Output Files}
+
+The analysis exports
+
+\begin{itemize}
+\item supplier\_performance.csv
+\item product\_summary.csv
+\item monthly\_sales.csv
+\end{itemize}
+
+which can be imported into SAS, Excel, R, or other statistical software.
+
+\section{Conclusion}
+
+Python provides a comprehensive platform for Operations and Supply Management analytics. By integrating data cleaning, KPI calculation, inventory management, supplier evaluation, visualization, and reporting, organizations can improve operational efficiency, reduce costs, and support evidence-based decision making. The framework can be further extended with demand forecasting, machine learning, Monte Carlo simulation, and optimization algorithms.
+
+\end{document}

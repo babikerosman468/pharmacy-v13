@@ -1,0 +1,10 @@
+Model,Status,Basis
+Demand Forecasting,AVAILABLE,Observed sales transactions over actual observation window
+ABC Analysis,AVAILABLE,Observed-sales revenue; preliminary until mature history is available
+Expiry Risk,AVAILABLE,Medicine expiry dates and current stock
+Stock Coverage,AVAILABLE,Current stock versus observed demand
+Supplier Analysis,AVAILABLE,Purchase quantities and procurement cost
+Reorder Point,PARTIAL,Lead-time history not currently recorded
+Safety Stock,PARTIAL,Demand variability and lead-time history required
+EOQ,PARTIAL,Ordering and holding-cost parameters required
+Monte Carlo,READY_FOR_EXTENSION,Demand distribution and lead-time uncertainty

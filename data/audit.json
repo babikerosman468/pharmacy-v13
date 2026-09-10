@@ -1,0 +1,96 @@
+[
+  {
+    "action": "ADD",
+    "time": "2026-06-14T13:59:39.690Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-14T16:28:15.585Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-14T18:03:36.954Z"
+  },
+  {
+    "action": "SALE",
+    "time": "2026-06-14T19:03:43.277Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-15T12:40:29.311Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-15T12:44:19.162Z"
+  },
+  {
+    "action": "WEB SALE",
+    "time": "2026-09-06T18:04:55.399Z"
+  },
+  {
+    "action": "SUPPLIER_ADD",
+    "time": "2026-09-07T01:09:34.799Z",
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier"
+  },
+  {
+    "action": "STOCK_IN",
+    "time": "2026-09-07T01:10:42.334Z",
+    "purchaseId": 1,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 20,
+    "oldQuantity": 180,
+    "newQuantity": 200
+  },
+  {
+    "action": "STOCK_OUT",
+    "time": "2026-09-07T10:55:15.188Z",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 5,
+    "oldQuantity": 200,
+    "newQuantity": 195
+  },
+  {
+    "action": "STOCK_OUT",
+    "time": "2026-09-07T11:12:04.483Z",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 1,
+    "oldQuantity": 195,
+    "newQuantity": 194
+  },
+  {
+    "action": "STOCK_IN",
+    "time": "2026-09-07T11:16:20.171Z",
+    "purchaseId": 2,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 1,
+    "oldQuantity": 194,
+    "newQuantity": 195
+  },
+  {
+    "action": "SUPPLIER_ADD",
+    "time": "2026-09-07T11:31:26.218Z",
+    "supplierId": 2,
+    "supplierName": "V13 Test Supplier2"
+  },
+  {
+    "action": "STOCK_IN",
+    "time": "2026-09-07T13:17:56.335Z",
+    "purchaseId": 3,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 2,
+    "oldQuantity": 195,
+    "newQuantity": 197
+  }
+]

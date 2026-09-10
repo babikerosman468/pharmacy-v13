@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}   % use the latest stable interface
+
+\begin{document}
+
+\begin{tikzpicture}
+  \begin{axis}[
+    title={Example: Sine Function},
+    xlabel={$x$}, ylabel={$y$},
+    grid=major,
+    legend pos=north west,
+  ]
+    \addplot[color=blue, thick] {sin(deg(x))};
+    \addlegendentry{$\sin(x)$}
+  \end{axis}
+\end{tikzpicture}
+
+\end{document}

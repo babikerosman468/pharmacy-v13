@@ -1,0 +1,10 @@
+Model,Status,Reason
+Demand Forecasting,PARTIAL,Limited historical sales
+Observed-Sales ABC,AVAILABLE,Based on observed revenue
+Expiry Risk,AVAILABLE,Expiry dates available
+Stock Coverage,AVAILABLE,Observed demand available
+Supplier Analysis,AVAILABLE,Purchase history available
+Reorder Point,PARTIAL,Lead-time history unavailable
+Safety Stock,PARTIAL,Demand variability history limited
+EOQ,PARTIAL,Ordering and holding costs unavailable
+Monte Carlo,READY_FOR_EXTENSION,Longitudinal demand required

@@ -1,0 +1,558 @@
+  let tex = fs.readFileSync('head.tex','utf8');
+
+  tex += `
+
+
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+% ---------------- COLORS ----------------
+\definecolor{mainblue}{RGB}{0,70,140}
+\definecolor{lightblue}{RGB}{235,245,255}
+\definecolor{darkgray}{RGB}{60,60,60}
+
+% ---------------- STYLE ----------------
+\titleformat{\section}
+{\Large\bfseries\color{mainblue}}
+{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\large\bfseries\color{darkgray}}
+{\thesubsection}{1em}{}
+
+
+
+
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Pharmacy V12}
+\lhead{Termux System}
+\cfoot{\thepage}
+
+% ---------------- TITLE ----------------
+\begin{document}
+
+\begin{titlepage}
+\centering
+
+\vspace*{2cm}
+
+{\Huge\bfseries\color{mainblue}
+Pharmacy Management System V12\par}
+
+\vspace{0.5cm}
+
+{\Large Termux • Node.js • SAS • LaTeX Integration\par}
+
+\vspace{1.5cm}
+
+\begin{tcolorbox}[
+colback=lightblue,
+colframe=mainblue,
+width=0.85\textwidth,
+arc=4mm,
+boxrule=0.8pt]
+
+\centering
+\textbf{System Design Document}\\
+Inventory • Sales • Analytics • Reporting • Backup • Health Monitoring
+
+\end{tcolorbox}
+
+\vfill
+
+{\large Prepared by: Babiker Osman\par}
+{\large \today\par}
+
+\end{titlepage}
+
+% ---------------- EXECUTIVE SUMMARY ----------------
+\section{Executive Summary}
+
+\begin{tcolorbox}[
+colback=lightblue,
+colframe=mainblue,
+title=Overview]
+
+The Pharmacy Management System V12 is a lightweight, offline-ready pharmacy platform designed for Termux environments. It integrates inventory management, sales processing, analytics, SAS export, backups, and LaTeX reporting into a single unified system.
+
+\end{tcolorbox}
+
+% ---------------- SYSTEM ARCHITECTURE ----------------
+\section{System Architecture}
+
+The system consists of modular components:
+
+\begin{itemize}
+\item Inventory Engine
+\item Sales Engine
+\item Analytics Engine
+\item Reporting Engine
+\item Web Dashboard
+\item SAS Export Engine
+\item Backup System
+\item Health Monitoring
+\end{itemize}
+
+% ---------------- MENU ----------------
+\section{Operational Menu Structure}
+
+\begin{longtable}{cl}
+\toprule
+\textbf{Option} & \textbf{Function} \\
+\midrule
+
+1  & Add Medicine \\
+2  & List Medicines \\
+3  & Sell Medicine \\
+4  & Search Medicine \\
+5  & Alerts \\
+6  & Analytics \\
+7  & Web Dashboard \\
+8  & Reports (TXT) \\
+9  & Stop Server \\
+10 & Exit \\
+11 & SAS Export \\
+12 & Backup System \\
+13 & System Health Check \\
+
+\bottomrule
+\end{longtable}
+
+% ---------------- FEATURES ----------------
+\section{System Highlights}
+
+\begin{tcolorbox}[
+colback=lightblue,
+colframe=mainblue,
+title=Key Features]
+
+\begin{itemize}
+\item Fully offline Termux-compatible system
+\item Lightweight JSON-based storage
+\item Web dashboard for real-time monitoring
+\item SAS-compatible data export (CSV)
+\item Automated backup system
+\item Audit logging for all actions
+\item Health and inventory monitoring
+\item TXT + LaTeX reporting support
+\item Modular and extendable architecture
+\end{itemize}
+
+\end{tcolorbox}
+
+% ---------------- REPORTING ----------------
+\section{Reporting System}
+
+\subsection{TXT Reports}
+Generated for quick operational summaries:
+\begin{verbatim}
+reports/pharmacy_report.txt
+\end{verbatim}
+
+\subsection{LaTeX Reports}
+Professional PDF output using:
+\begin{verbatim}
+~/compiletex1.sh
+\end{verbatim}
+
+% ---------------- SAS ----------------
+\section{SAS Integration}
+
+Exports structured datasets for analytics:
+
+\begin{verbatim}
+exports/medicines_sas.csv
+exports/sales_sas.csv
+\end{verbatim}
+
+Compatible with SAS, Python, R, and Excel.
+
+% ---------------- BACKUP ----------------
+\section{Backup System}
+
+Creates timestamped backups of:
+
+\begin{itemize}
+\item Medicines database
+\item Sales records
+\item Audit logs
+\end{itemize}
+
+Ensures full data recovery capability.
+
+% ---------------- HEALTH ----------------
+\section{System Health Check}
+
+Provides system diagnostics:
+
+\begin{itemize}
+\item Total medicines
+\item Total sales
+\item Revenue summary
+\item Low stock alerts
+\end{itemize}
+
+
+
+
+\section*{Dashboard Design Philosophy}
+
+The Pharmacy Management System V12 dashboard combines a healthcare-oriented visual identity with data analytics principles inspired by SAS reporting environments.
+
+\subsection*{Healthcare Theme}
+
+The primary visual theme is based on medical green tones, representing:
+
+\begin{itemize}
+\item Patient care
+\item Healthcare services
+\item Medication management
+\item Safety and reliability
+\item Pharmacy operations
+\end{itemize}
+
+The dashboard background employs a light green palette designed to reduce visual fatigue while maintaining a professional clinical appearance.
+
+\subsection*{SAS Analytics Theme}
+
+The secondary visual theme incorporates SAS-inspired blue accents to emphasize:
+
+\begin{itemize}
+\item Business intelligence
+\item Statistical reporting
+\item Data analytics
+\item Revenue monitoring
+\item Decision support systems
+\end{itemize}
+
+These elements reinforce the analytical capabilities of the platform and support management-oriented decision making.
+
+\subsection*{Dashboard Components}
+
+\begin{longtable}{ll}
+\toprule
+Component & Color Theme \\
+\midrule
+Medicine Inventory & Medical Green \\
+Sales Activity & Teal \\
+Revenue Analytics & SAS Blue \\
+System Alerts & Red \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Design Objectives}
+
+The combined Healthcare--SAS design philosophy aims to achieve:
+
+\begin{itemize}
+\item Rapid interpretation of key performance indicators
+\item Improved user experience on mobile devices
+\item Consistent pharmacy branding
+\item Enhanced analytical visibility
+\item Professional management reporting
+\end{itemize}
+
+This dual-theme approach creates a balanced environment that reflects both the operational requirements of a pharmacy and the analytical strengths of modern data-driven management systems.
+
+
+
+\section{Python Simulation Models (Pharmacy V12) }
+
+The Pharmacy Management System integrates advanced Python-based simulation models to support decision-making, forecasting, and operational optimization.
+
+These models are executed from the Termux-based Node.js application and operate on real pharmacy data stored in JSON format.
+
+\subsection{ Inventory Risk Simulation}
+
+This model estimates the probability of stock-out events using Monte Carlo simulation.
+
+\textbf{Purpose:}
+\begin{itemize}
+\item Measure risk of insufficient stock
+\item Simulate demand variability
+\item Identify vulnerable medicines
+\end{itemize}
+
+\textbf{Method:}
+Random demand is generated over 1000 iterations and compared with current stock levels.
+
+\subsection{ Demand Forecasting Model}
+
+Uses statistical averaging and stochastic simulation to estimate future demand.
+
+\textbf{Purpose:}
+\begin{itemize}
+\item Predict future pharmacy demand
+\item Support procurement planning
+\end{itemize}
+
+\textbf{Method:}
+Monte Carlo simulation around historical mean sales.
+
+\subsection{ Reorder Point Model}
+
+Calculates when a medicine should be reordered.
+
+\textbf{Formula:}
+\[
+ROP = (Daily\ Demand \times Lead\ Time)
+\]
+
+\textbf{Purpose:}
+\begin{itemize}
+\item Prevent stock depletion
+\item Optimize inventory replenishment
+\end{itemize}
+
+\subsection{ Safety Stock Model}
+
+Determines buffer stock required to absorb demand fluctuations.
+
+\textbf{Formula:}
+\[
+Safety\ Stock = Z \times \sqrt{Lead\ Time} \times Demand
+\]
+
+\textbf{Purpose:}
+\begin{itemize}
+\item Reduce stock-out risk
+\item Maintain service continuity
+\end{itemize}
+
+\subsection{ Expiry Risk Simulation}
+
+Analyzes medicine expiry timelines and flags high-risk items.
+
+\textbf{Purpose:}
+\begin{itemize}
+\item Reduce financial loss due to expired drugs
+\item Improve stock rotation
+\end{itemize}
+
+\subsection{ ABC Analysis}
+
+Classifies medicines based on economic value contribution.
+
+\textbf{Categories:}
+\begin{itemize}
+\item A: High value items
+\item B: Medium value items
+\item C: Low value items
+\end{itemize}
+
+\subsection{ EOQ Model (Economic Order Quantity)}
+
+Optimizes order quantity to minimize total inventory cost.
+
+\textbf{Formula:}
+\[
+EOQ = \sqrt{\frac{2DS}{H}}
+\]
+
+Where:
+\begin{itemize}
+\item D = Demand
+\item S = Ordering Cost
+\item H = Holding Cost
+\end{itemize}
+
+\subsection{ AI Dashboard Simulation}
+
+Provides a consolidated analytical view of the pharmacy system.
+
+\textbf{Outputs:}
+\begin{itemize}
+\item Total medicines
+\item Total sales
+\item Revenue
+\item Inventory value
+\item System recommendations
+\end{itemize}
+
+\subsection{Integration Architecture}
+
+\begin{itemize}
+\item Node.js handles user interface and workflow control
+\item Python executes statistical and simulation models
+\item JSON files act as shared data layer
+\item Results are printed back to terminal dashboard
+\end{itemize}
+
+\subsection{Conclusion}
+
+These simulation models transform the pharmacy system from a basic inventory tool into a predictive analytics platform capable of supporting intelligent pharmaceutical decision-making.
+
+
+% ---------------- FUTURE ADDITIONS ----------------
+\section{Future Additions (Roadmap V13+)}
+
+\begin{tcolorbox}[
+colback=lightblue,
+colframe=mainblue,
+title=System Evolution Roadmap,
+arc=3mm,
+boxrule=0.8pt]
+
+The Pharmacy Management System is designed as an evolving platform.
+Future versions will extend its intelligence, visualization, and clinical utility.
+
+\end{tcolorbox}
+
+\subsection{Advanced Analytics and AI}
+
+\begin{itemize}
+\item Predictive demand forecasting for medicines
+\item Seasonal inventory optimization
+\item AI-based sales trend detection
+\item Early warning system for stock depletion
+\end{itemize}
+
+\subsection{Visualization and Reporting Enhancements}
+
+\begin{itemize}
+\item Embedded charts using \texttt{pgfplots}
+\item Revenue trend graphs inside PDF reports
+\item Interactive-style dashboard reports (static PDF equivalent)
+\item Pharmacy performance scorecards
+\end{itemize}
+
+\subsection{Clinical and Pharmacy Intelligence}
+
+\begin{itemize}
+\item Drug interaction warning layer
+\item Expiry risk prediction system
+\item High-risk medicine monitoring
+\item Prescription pattern analysis
+\end{itemize}
+
+\subsection{System Expansion}
+
+\begin{itemize}
+\item Multi-branch pharmacy support
+\item Role-based access (Admin / Pharmacist / Cashier)
+\item User authentication system
+\item Cloud synchronization option
+\end{itemize}
+
+\subsection{Automation and Integration}
+
+\begin{itemize}
+\item Auto-generated daily/weekly reports
+\item Scheduled SAS exports
+\item Automatic backup scheduling
+\item WhatsApp / SMS notification alerts (future plugin)
+\end{itemize}
+
+\subsection{User Experience Improvements}
+
+\begin{itemize}
+\item Enhanced CLI interface with structured panels
+\item Improved web dashboard UI
+\item Mobile-optimized dashboard view
+\item Barcode / QR code scanning support
+\end{itemize}
+
+
+
+
+% ---------------- CONCLUSION ----------------
+\section{Conclusion}
+
+Pharmacy Management System V12 delivers a complete lightweight pharmacy platform combining operational management, analytics, reporting, SAS interoperability, and LaTeX documentation within a single Termux-based ecosystem.
+
+
+
+
+
+\end{document}
+
+
+
+
+\\section*{Future Additions}
+
+\\begin{itemize}
+\\item AI Demand Forecasting
+\\item Expiry Prediction
+\\item Barcode Scanning
+\\item QR Code Support
+\\item Multi-Branch Pharmacies
+\\item Cloud Synchronization
+\\item Advanced SAS Analytics
+\\end{itemize}
+
+
+\\section*{System Highlights}
+
+\\begin{itemize}
+\\item Inventory Management
+\\item Sales Processing
+\\item Analytics Engine
+\\item SAS Export
+\\item Backup System
+\\item Audit Logging
+\\item Health Monitoring
+\\item Web Dashboard
+\\end{itemize}
+
+
+
+\\section*{Executive Summary}
+
+This report was generated automatically by the Pharmacy Management System V12.
+
+
+\\section*{Inventory Summary}
+
+\\begin{longtable}{lrrl}
+\\toprule
+Medicine & Qty & Price & Expiry \\\\
+\\midrule
+`;
+
+  m.forEach(x=>{
+    tex += `${x.name} & ${x.quantity} & ${x.price} & ${x.expiry} \\\\\n`;
+  });
+
+  tex += `
+\\bottomrule
+\\end{longtable}
+
+\\section*{Sales Summary}
+
+Total Sales: ${s.length}
+
+Total Revenue: ${revenue}
+
+\\begin{longtable}{lrrl}
+\\toprule
+Medicine & Qty & Total & Date \\\\
+\\midrule
+`;
+
+  s.forEach(x=>{
+    tex += `${x.medicine} & ${x.qty} & ${x.total} & ${x.date} \\\\\n`;
+  });
+
+  tex += `
+\\bottomrule
+\\end{longtable}
+
+
+
+
+
+

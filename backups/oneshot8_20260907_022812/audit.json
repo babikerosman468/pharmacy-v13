@@ -1,0 +1,30 @@
+[
+  {
+    "action": "ADD",
+    "time": "2026-06-14T13:59:39.690Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-14T16:28:15.585Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-14T18:03:36.954Z"
+  },
+  {
+    "action": "SALE",
+    "time": "2026-06-14T19:03:43.277Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-15T12:40:29.311Z"
+  },
+  {
+    "action": "BATCH_IMPORT",
+    "time": "2026-06-15T12:44:19.162Z"
+  },
+  {
+    "action": "WEB SALE",
+    "time": "2026-09-06T18:04:55.399Z"
+  }
+]

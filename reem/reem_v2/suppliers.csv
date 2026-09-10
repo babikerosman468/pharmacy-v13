@@ -1,0 +1,3 @@
+SupplierID,Supplier,PurchaseRecords,PurchasedUnits,ProcurementCost,DataSource
+1,V13 Test Supplier,3,23,129.5,OBSERVED_V13
+2,V13 Test Supplier2,0,0,0,OBSERVED_V13

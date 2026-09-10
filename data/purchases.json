@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 20,
+    "unitCost": 5.5,
+    "totalCost": 110,
+    "date": "2026-09-07T01:10:42.330Z",
+    "batchNumber": "V13-TEST-001",
+    "expiry": "2027-10-31",
+    "createdAt": "2026-09-07T01:10:42.330Z"
+  },
+  {
+    "id": 2,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 1,
+    "unitCost": 6.5,
+    "totalCost": 6.5,
+    "date": "2026-09-07T11:16:20.165Z",
+    "batchNumber": "WEB-STOCK-IN",
+    "expiry": "2027-10-31",
+    "createdAt": "2026-09-07T11:16:20.165Z"
+  },
+  {
+    "id": 3,
+    "supplierId": 1,
+    "supplierName": "V13 Test Supplier",
+    "medicineId": 1781527537635,
+    "medicineName": "Acetylcysteine",
+    "quantity": 2,
+    "unitCost": 6.5,
+    "totalCost": 13,
+    "date": "2026-09-07T13:17:56.325Z",
+    "batchNumber": "WEB-PURCHASE",
+    "expiry": "2027-10-31",
+    "createdAt": "2026-09-07T13:17:56.325Z"
+  }
+]

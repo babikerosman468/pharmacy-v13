@@ -1,0 +1,922 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% REEM V2 — INVENTORY INTELLIGENCE REPORT
+% ============================================================
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setmainfont{TeX Gyre Pagella}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes}
+
+\usepackage{sectsty}
+
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+
+% ============================================================
+% COLOURS
+% ============================================================
+
+\definecolor{titleColor}{HTML}{800000}
+\definecolor{blueColor}{HTML}{4682B4}
+\definecolor{purpleColor}{HTML}{6A5ACD}
+\definecolor{goldColor}{HTML}{DAA520}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blueColor,
+    urlcolor=blueColor
+}
+
+\sectionfont{\color{titleColor}}
+\subsectionfont{\color{blueColor}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{REEM V2}
+\fancyhead[R]{Inventory Intelligence}
+\fancyfoot[C]{\thepage}
+
+% ============================================================
+% DOCUMENT
+% ============================================================
+
+\begin{document}
+
+\begin{titlepage}
+
+\centering
+
+\vspace*{1.2cm}
+
+{\color{titleColor}\Huge\bfseries
+REEM V2\\[0.3cm]
+Inventory Intelligence
+\par}
+
+\vspace{0.5cm}
+
+{\color{blueColor}\Large
+Pharmacy Supply Chain Intelligence
+\par}
+
+\vspace{0.3cm}
+
+{\large
+Research and Development Framework
+\par}
+
+\vspace{1.2cm}
+
+\begin{tcolorbox}[
+    colframe=titleColor,
+    colback=white,
+    width=0.90\textwidth,
+    arc=3mm
+]
+\centering
+\large
+\textbf{From Inventory State to Management Intelligence}
+\end{tcolorbox}
+
+\vfill
+
+{\large
+September 2026
+\par}
+
+\vspace{0.4cm}
+
+{\small
+Synthetic Development Environment\\
+Operational Use Prohibited
+\par}
+
+\end{titlepage}
+
+% ============================================================
+\section{Executive Summary}
+% ============================================================
+
+REEM V2 is designed as an intelligence layer above pharmacy
+operational systems. Its purpose is not simply to report stock
+balances, but to transform operational evidence into analytical
+information that can support inventory decisions.
+
+The inventory intelligence layer integrates four major evidence
+streams:
+
+\begin{enumerate}[leftmargin=*]
+    \item sales and demand history,
+    \item procurement history,
+    \item delivery and lead-time history,
+    \item current inventory state.
+\end{enumerate}
+
+The current development implementation successfully integrates
+forecast demand with observed delivery lead times and current
+inventory-batch quantities.
+
+Fifty medicines were analysed.
+
+The current synthetic environment produced:
+
+\begin{itemize}
+    \item 50 medicines analysed,
+    \item 46 medicines with observed delivery lead-time evidence,
+    \item 4 medicines using an explicit seven-day development assumption,
+    \item no negative current-stock values,
+    \item positive reorder points for all medicines,
+    \item 50 medicines classified as ADEQUATE under the current
+          development decision rule.
+\end{itemize}
+
+The result should not be interpreted as evidence that a real pharmacy
+has adequate stock. The dataset is explicitly synthetic and exists
+only for research and development.
+
+% ============================================================
+\section{Purpose}
+% ============================================================
+
+The purpose of the inventory intelligence model is to answer a
+management question:
+
+\begin{tcolorbox}[
+    colframe=blueColor,
+    colback=white,
+    arc=2mm
+]
+\centering
+\textbf{How much inventory is available relative to the amount
+required to cover expected demand and replenishment uncertainty?}
+\end{tcolorbox}
+
+This requires the system to connect:
+
+\[
+\text{Demand}
+\rightarrow
+\text{Lead Time}
+\rightarrow
+\text{Replenishment Requirement}
+\rightarrow
+\text{Current Stock}
+\rightarrow
+\text{Decision}.
+\]
+
+The model therefore represents a transition from operational
+record-keeping toward evidence-based inventory intelligence.
+
+% ============================================================
+\section{Analytical Architecture}
+% ============================================================
+
+The REEM V2 inventory layer is positioned between the operational
+data environment and management decision-making.
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}[
+node distance=0.8cm and 0.8cm,
+box/.style={
+    rectangle,
+    rounded corners,
+    draw=blueColor,
+    minimum width=3.0cm,
+    minimum height=0.8cm,
+    align=center
+},
+decision/.style={
+    rectangle,
+    rounded corners,
+    draw=titleColor,
+    minimum width=3.2cm,
+    minimum height=0.9cm,
+    align=center,
+    fill=white
+},
+arrow/.style={
+    -{Latex[length=3mm]},
+    thick
+}
+]
+
+\node[box] (sales) {Sales\\Demand History};
+\node[box, right=of sales] (delivery) {Deliveries\\Lead Time};
+\node[box, right=of delivery] (stock) {Inventory Batches\\Current State};
+
+\node[box, below=of sales, xshift=3.2cm] (forecast)
+{Demand Forecast};
+
+\node[box, below=of forecast] (rop)
+{Reorder Point\\and Safety Stock};
+
+\node[decision, below=of rop]
+{Inventory Intelligence\\Decision};
+
+\draw[arrow] (sales) -- (forecast);
+\draw[arrow] (delivery) -- (rop);
+\draw[arrow] (stock) |- (rop);
+\draw[arrow] (forecast) -- (rop);
+\draw[arrow] (rop) -- (decision);
+
+\end{tikzpicture}
+
+\caption{REEM V2 inventory intelligence architecture.}
+\end{figure}
+
+% ============================================================
+\section{Evidence Architecture}
+% ============================================================
+
+A major methodological improvement in REEM V2 is the distinction
+between transactional evidence and state evidence.
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}[
+node distance=0.7cm and 1.0cm,
+box/.style={
+    rectangle,
+    rounded corners,
+    draw=blueColor,
+    minimum width=3.3cm,
+    minimum height=0.75cm,
+    align=center
+},
+state/.style={
+    rectangle,
+    rounded corners,
+    draw=purpleColor,
+    minimum width=3.3cm,
+    minimum height=0.75cm,
+    align=center
+},
+arrow/.style={
+    -{Latex[length=3mm]},
+    thick
+}
+]
+
+\node[box] (sales) {Sales};
+\node[box, below=of sales] (purchases) {Purchases};
+\node[box, below=of purchases] (deliveries) {Deliveries};
+\node[box, below=of deliveries] (movements) {Stock Movements};
+
+\node[state, right=of purchases] (batches)
+{Inventory Batches\\Remaining Quantity};
+
+\node[box, right=of batches] (evidence)
+{Current Inventory\\State};
+
+\draw[arrow] (sales) -- ++(1.2,0) |- (evidence);
+\draw[arrow] (purchases) -- (batches);
+\draw[arrow] (deliveries) -- ++(1.2,0) |- (evidence);
+\draw[arrow] (movements) -- ++(1.2,0) |- (evidence);
+\draw[arrow] (batches) -- (evidence);
+
+\end{tikzpicture}
+
+\caption{Separation of transactional and state evidence.}
+\end{figure}
+
+This distinction is important.
+
+Stock movements describe inventory events such as sales and receipts.
+They do not necessarily constitute a complete opening-to-current
+inventory ledger.
+
+For the present synthetic environment, current stock is therefore
+derived from:
+
+\[
+\text{Current Stock}_{i}
+=
+\sum_b
+\text{RemainingQuantity}_{ib}.
+\]
+
+This avoids incorrectly producing negative inventory merely because
+the movement table does not contain a complete opening balance.
+
+% ============================================================
+\section{Demand Input}
+% ============================================================
+
+The inventory model receives expected daily demand from the REEM V2
+demand forecasting layer.
+
+For medicine $i$:
+
+\[
+\widehat{D}_i
+=
+\text{Selected Forecast Units per Day}.
+\]
+
+The current demand model evaluates four development forecasting
+methods:
+
+\begin{enumerate}
+    \item Naive,
+    \item seven-day moving average,
+    \item seven-day weighted moving average,
+    \item linear trend.
+\end{enumerate}
+
+The selected model is based on chronological validation performance.
+
+The inventory model does not independently reinterpret the demand
+forecast. It consumes the selected forecast as an analytical input.
+
+% ============================================================
+\section{Lead-Time Evidence}
+% ============================================================
+
+Lead time is derived from delivery records whenever delivery history
+is available.
+
+For medicine $i$:
+
+\[
+L_i =
+\text{observed delivery lead time}.
+\]
+
+The current development dataset contains:
+
+\[
+46/50 = 92\%
+\]
+
+of medicines with observed lead-time evidence.
+
+Four medicines lack sufficient delivery evidence:
+
+\begin{itemize}
+    \item D0015 -- Bisoprolol,
+    \item D0023 -- Clopidogrel,
+    \item D0004 -- Ambroxol,
+    \item D0036 -- Insulin.
+\end{itemize}
+
+For these medicines, the development model uses:
+
+\[
+L_i = 7\text{ days}
+\]
+
+with the explicit status:
+
+\[
+\texttt{ASSUMED\_7\_DAYS}.
+\]
+
+The assumption is deliberately retained in the output rather than
+being presented as observed evidence.
+
+% ============================================================
+\section{Demand During Lead Time}
+% ============================================================
+
+Expected demand during replenishment lead time is calculated as:
+
+\[
+D_{LT,i}
+=
+\widehat{D}_i L_i.
+\]
+
+For example, D0027 (Enalapril) has:
+
+\[
+\widehat{D}=7.8571
+\]
+
+units per day and:
+
+\[
+L=9.52
+\]
+
+days.
+
+Therefore:
+
+\[
+D_{LT}
+=
+7.8571\times9.52
+\approx74.8.
+\]
+
+This represents expected demand during the replenishment period.
+
+% ============================================================
+\section{Safety Stock}
+% ============================================================
+
+The current development implementation uses validation forecast
+error as a provisional proxy for demand uncertainty.
+
+The development formulation is:
+
+\[
+SS_i
+=
+1.65
+\times
+MAE_i
+\times
+\sqrt{L_i}.
+\]
+
+The factor 1.65 corresponds approximately to a one-sided 95\%
+normal-theory service factor.
+
+However, this formulation is explicitly provisional.
+
+A production-quality model should eventually estimate uncertainty
+directly from longitudinal demand residuals and incorporate
+lead-time variability.
+
+Therefore the current safety-stock calculation should be regarded as:
+
+\begin{tcolorbox}[
+    colframe=goldColor,
+    colback=white,
+    arc=2mm
+]
+\centering
+\textbf{Development-level safety-stock estimation}
+\end{tcolorbox}
+
+rather than a final pharmaceutical inventory policy.
+
+% ============================================================
+\section{Reorder Point}
+% ============================================================
+
+The current reorder point is:
+
+\[
+ROP_i
+=
+D_{LT,i}+SS_i.
+\]
+
+For D0027:
+
+\[
+D_{LT}=74.8
+\]
+
+and:
+
+\[
+SS=9.87.
+\]
+
+Therefore:
+
+\[
+ROP
+=
+74.8+9.87
+=
+84.67.
+\]
+
+The current stock is:
+
+\[
+11\,007.
+\]
+
+Thus the available stock is substantially above the calculated
+reorder threshold.
+
+% ============================================================
+\section{Inventory Decision Logic}
+% ============================================================
+
+The current development decision rule is:
+
+\[
+\text{Decision}_i =
+\begin{cases}
+\text{STOCKOUT\_RISK}, & Stock_i \leq 0\\
+\text{REORDER}, & Stock_i \leq ROP_i\\
+\text{WATCH}, & Stock_i \leq 1.5ROP_i\\
+\text{ADEQUATE}, & Stock_i > 1.5ROP_i.
+\end{cases}
+\]
+
+This is a transparent development rule.
+
+It is intentionally simple and interpretable.
+
+It should not yet be considered a validated operational pharmacy
+policy.
+
+% ============================================================
+\section{Current Inventory Results}
+% ============================================================
+
+The validated development run produced:
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+\textbf{Measure} & \textbf{Result}\\
+\midrule
+Medicines analysed & 50\\
+Minimum current stock & 175\\
+Maximum current stock & 11,619\\
+Minimum reorder point & 0.77\\
+Maximum reorder point & 84.67\\
+Observed lead-time medicines & 46\\
+Assumed lead-time medicines & 4\\
+Stockout risk & 0\\
+Reorder & 0\\
+Watch & 0\\
+Adequate & 50\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All medicines therefore satisfy:
+
+\[
+Stock_i > ROP_i
+\]
+
+in the current synthetic environment.
+
+% ============================================================
+\section{Stock-to-Reorder-Point Analysis}
+% ============================================================
+
+The ratio:
+
+\[
+R_i=
+\frac{Stock_i}{ROP_i}
+\]
+
+provides a simple measure of how far current stock lies above the
+calculated reorder threshold.
+
+The lowest ten ratios observed were:
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Medicine} & \textbf{Stock} & \textbf{Stock/ROP}\\
+\midrule
+Cefixime & 470 & 40.1\\
+Omeprazole & 526 & 43.4\\
+Bisoprolol & 492 & 70.4\\
+Doxycycline & 686 & 70.6\\
+Spironolactone & 335 & 85.7\\
+Furosemide & 543 & 90.2\\
+Azithromycin & 953 & 94.8\\
+Ciprofloxacin & 805 & 100.0\\
+Amoxicillin & 962 & 100.1\\
+Captopril & 1138 & 112.3\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Even the lowest observed ratio is approximately 40 times the
+reorder point.
+
+This explains why no medicine is classified as REORDER or WATCH.
+
+% ============================================================
+\section{Interpretation}
+% ============================================================
+
+The result demonstrates that the inventory intelligence pipeline is
+functionally coherent.
+
+The system successfully connects:
+
+\[
+\text{Forecast}
+\rightarrow
+\text{Lead Time}
+\rightarrow
+\text{Safety Stock}
+\rightarrow
+\text{ROP}
+\rightarrow
+\text{Current Stock}
+\rightarrow
+\text{Decision}.
+\]
+
+The result also demonstrates an important analytical principle:
+
+\begin{tcolorbox}[
+    colframe=purpleColor,
+    colback=white,
+    arc=2mm
+]
+\centering
+\textbf{The decision engine should describe the data, not manufacture
+a desired management result.}
+\end{tcolorbox}
+
+The synthetic pharmacy contains substantially more stock than is
+required by the current demand and replenishment assumptions.
+
+Consequently, the correct result is not to artificially create
+reorder alerts, but to report the observed state:
+
+\[
+\boxed{\text{50 medicines: ADEQUATE}}
+\]
+
+within the current development environment.
+
+% ============================================================
+\section{Evidence Quality}
+% ============================================================
+
+REEM V2 explicitly distinguishes evidence quality.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Component} & \textbf{Evidence} & \textbf{Status}\\
+\midrule
+Demand forecast & Historical sales & Development\\
+Lead time & Delivery history & 92\% observed\\
+Lead time & Missing history & 8\% assumed\\
+Current stock & Batch remaining quantity & Development\\
+ROP & Calculated & Development\\
+Decision & Rule-based & Development\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The evidence ladder is:
+
+\[
+\text{Calculated}
+\rightarrow
+\text{Analytically Useful}
+\rightarrow
+\text{Validated}
+\rightarrow
+\text{Operationally Trusted}.
+\]
+
+The current inventory model is between the first two stages and is
+being developed toward formal validation.
+
+% ============================================================
+\section{Model Integrity Validation}
+% ============================================================
+
+The current validation produced the following results:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Integrity Test} & \textbf{Result}\\
+\midrule
+50 medicines & PASS\\
+No negative stock & PASS\\
+Positive reorder points & PASS\\
+All lead times observed & FAIL\\
+No missing decisions & PASS\\
+Development boundary preserved & PASS\\
+Operational use prohibited & PASS\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The single failed test is intentional evidence rather than a hidden
+error.
+
+Four medicines do not have observed delivery histories. The model
+therefore correctly identifies their lead time as assumed rather
+than falsely labeling it as observed.
+
+% ============================================================
+\section{Important Limitations}
+% ============================================================
+
+The current model has several important limitations.
+
+\subsection{Synthetic Data}
+
+All current records originate from:
+
+\[
+\texttt{SIMULATED\_REEM\_V2}.
+\]
+
+They are development records and are not operational evidence.
+
+\subsection{Safety Stock}
+
+The present safety-stock formulation uses forecast MAE as a proxy
+for uncertainty.
+
+A future version should use empirical demand variability and
+lead-time variability.
+
+\subsection{Inventory State}
+
+Current stock is derived from batch remaining quantities. This is
+appropriate for the present synthetic state representation but does
+not replace a fully reconciled production inventory ledger.
+
+\subsection{Decision Thresholds}
+
+The current decision thresholds are development rules. They require
+validation against actual pharmacy service levels, stockout costs,
+criticality, procurement constraints, and management policy.
+
+\subsection{Overstocked Synthetic Environment}
+
+The current synthetic inventory contains substantially more units
+than required by modeled demand.
+
+Therefore the present results cannot be used to estimate realistic
+pharmacy stock requirements.
+
+% ============================================================
+\section{Next Development Stage}
+% ============================================================
+
+The next stage should improve the scientific quality of the inventory
+model rather than merely add more output.
+
+The development roadmap is:
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}[
+node distance=0.65cm,
+box/.style={
+    rectangle,
+    rounded corners,
+    draw=blueColor,
+    minimum width=10cm,
+    minimum height=0.72cm,
+    align=center
+},
+arrow/.style={
+    -{Latex[length=3mm]},
+    thick
+}
+]
+
+\node[box] (a) {Validated Current Stock State};
+\node[box, below=of a] (b) {Empirical Demand Variability};
+\node[box, below=of b] (c) {Lead-Time Variability};
+\node[box, below=of c] (d) {Improved Safety Stock};
+\node[box, below=of d] (e) {Service-Level Calibration};
+\node[box, below=of e] (f) {Stockout Risk Modelling};
+\node[box, below=of f] (g) {Inventory Optimisation};
+
+\draw[arrow] (a) -- (b);
+\draw[arrow] (b) -- (c);
+\draw[arrow] (c) -- (d);
+\draw[arrow] (d) -- (e);
+\draw[arrow] (e) -- (f);
+\draw[arrow] (f) -- (g);
+
+\end{tikzpicture}
+
+\caption{Proposed inventory intelligence development pathway.}
+\end{figure}
+
+Future extensions may include:
+
+\begin{itemize}
+    \item empirical demand standard deviation,
+    \item lead-time standard deviation,
+    \item service-level targets,
+    \item medicine criticality,
+    \item stockout probability,
+    \item supplier reliability,
+    \item expiry risk,
+    \item ABC classification,
+    \item EOQ,
+    \item Monte Carlo inventory simulation,
+    \item multi-objective inventory optimisation.
+\end{itemize}
+
+% ============================================================
+\section{Management Intelligence Perspective}
+% ============================================================
+
+REEM V2 should ultimately move beyond the question:
+
+\begin{quote}
+``How many units are currently in stock?''
+\end{quote}
+
+toward questions such as:
+
+\begin{itemize}
+    \item What demand is expected?
+    \item How long will replenishment take?
+    \item How much inventory is required during replenishment?
+    \item How uncertain is the requirement?
+    \item Which medicines are approaching risk?
+    \item Which medicines are excessively stocked?
+    \item Which suppliers create replenishment risk?
+    \item Which inventory should receive management attention first?
+\end{itemize}
+
+This represents the central transition from an operational pharmacy
+system to a management intelligence system.
+
+% ============================================================
+\section{Conclusion}
+% ============================================================
+
+The REEM V2 inventory intelligence layer has successfully established
+a coherent development pipeline linking demand forecasting,
+procurement lead time, safety stock, reorder point, current inventory
+state, and inventory decision.
+
+The current validation confirms:
+
+\begin{itemize}
+    \item current stock is non-negative,
+    \item reorder points are positive,
+    \item delivery lead times are explicitly distinguished as observed
+          or assumed,
+    \item all 50 medicines receive a decision,
+    \item synthetic-data boundaries are preserved,
+    \item no operational conclusion is claimed.
+\end{itemize}
+
+The model is therefore ready for the next stage of research:
+improving uncertainty estimation, service-level modelling, stockout
+risk prediction, supplier intelligence, and inventory optimisation.
+
+\begin{tcolorbox}[
+    colframe=titleColor,
+    colback=white,
+    arc=3mm
+]
+\centering
+\large
+\textbf{REEM V2 Principle}\\[0.2cm]
+\textit{
+Operational data should become evidence,\\
+evidence should become intelligence,\\
+and intelligence should support better decisions.
+}
+\end{tcolorbox}
+
+\vfill
+
+\begin{center}
+\small
+\textbf{REEM V2}\\
+Research and Development Environment\\
+Data Source: SIMULATED\_REEM\_V2\\
+Data Status: DEVELOPMENT\\
+Operational Use: PROHIBITED
+\end{center}
+
+\end{document}

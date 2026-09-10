@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+ name="viewport"
+ content="width=device-width,initial-scale=1">
+
+<title>Pharmacy V12 Control Center</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div>
+
+<h1>💊 PHARMACY V12</h1>
+
+<p>
+Interactive Management • Analytics • AI • Decision Support
+</p>
+
+</div>
+
+<div class="online">
+● SYSTEM ONLINE
+</div>
+
+</header>
+
+<div class="layout">
+
+<aside>
+
+<h3>CONTROL CENTER</h3>
+
+<button onclick="showPage('dashboard')">
+🏠 Dashboard
+</button>
+
+<button onclick="showPage('medicines')">
+💊 Medicines
+</button>
+
+<button onclick="showPage('sales')">
+💰 Sales
+</button>
+
+<button onclick="showPage('inventory')">
+📦 Inventory
+</button>
+
+<button onclick="showPage('alerts')">
+⚠ Alerts
+</button>
+
+<hr>
+
+<h3>OPERATIONS</h3>
+
+<button onclick="showPage('suppliers')">
+🚚 Suppliers
+</button>
+
+<button onclick="showPage('purchases')">
+🛒 Purchases
+</button>
+
+<button onclick="showPage('cash')">
+💵 Daily Cash
+</button>
+
+<hr>
+
+<h3>DECISION SCIENCE</h3>
+
+<button onclick="runModel('forecast')">
+🔮 Forecast
+</button>
+
+<button onclick="runModel('monteCarlo')">
+🎲 Monte Carlo Risk
+</button>
+
+<button onclick="runModel('reorderPoint')">
+📍 Reorder Point
+</button>
+
+<button onclick="runModel('safetyStock')">
+🛡 Safety Stock
+</button>
+
+<button onclick="runModel('expiryRisk')">
+⏳ Expiry Risk
+</button>
+
+<button onclick="runModel('abc')">
+📊 ABC Analysis
+</button>
+
+<button onclick="runModel('eoq')">
+📦 EOQ Model
+</button>
+
+<button onclick="runModel('ai')">
+🤖 AI Dashboard
+</button>
+
+<hr>
+
+<h3>REPORTING</h3>
+
+<button onclick="showPage('reports')">
+📑 Reports
+</button>
+
+<button onclick="showPage('sas')">
+🧪 SAS
+</button>
+
+<button onclick="snapshot()">
+📸 Snapshot
+</button>
+
+<button onclick="showPage('health')">
+⚙ System Health
+</button>
+
+</aside>
+
+<main>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<h2>🏠 Pharmacy Control Center</h2>
+
+<div class="cards">
+
+<div class="card">
+<span>💊 Medicines</span>
+<strong id="medCount">0</strong>
+</div>
+
+<div class="card">
+<span>💰 Sales</span>
+<strong id="salesCount">0</strong>
+</div>
+
+<div class="card">
+<span>💵 Revenue</span>
+<strong id="revenue">0</strong>
+</div>
+
+<div class="card">
+<span>📦 Inventory Value</span>
+<strong id="inventoryValue">0</strong>
+</div>
+
+<div class="card warning">
+<span>⚠ Low Stock</span>
+<strong id="lowStock">0</strong>
+</div>
+
+<div class="card danger">
+<span>🔴 Expired</span>
+<strong id="expired">0</strong>
+</div>
+
+<div class="card warning">
+<span>⏳ Expiring Soon</span>
+<strong id="expiringSoon">0</strong>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button onclick="addMedicine()">
+➕ Add Medicine
+</button>
+
+<button onclick="sellMedicine()">
+💰 Sell Medicine
+</button>
+
+<button onclick="showPage('alerts')">
+⚠ Review Alerts
+</button>
+
+<button onclick="runModel('ai')">
+🤖 AI Decision Center
+</button>
+
+</div>
+
+</section>
+
+<!-- MEDICINES -->
+
+<section id="medicines" class="page">
+
+<h2>💊 Medicines Management</h2>
+
+<div class="toolbar">
+
+<input
+ id="search"
+ placeholder="Search medicine..."
+ oninput="loadMedicines()">
+
+<button onclick="addMedicine()">
+➕ Add
+</button>
+
+</div>
+
+<div id="medicineTable"></div>
+
+</section>
+
+<!-- SALES -->
+
+<section id="sales" class="page">
+
+<h2>💰 Sales</h2>
+
+<div id="salesTable"></div>
+
+</section>
+
+<!-- INVENTORY -->
+
+<section id="inventory" class="page">
+
+<h2>📦 Inventory Valuation & Stock</h2>
+
+<div id="inventoryTable"></div>
+
+</section>
+
+<!-- ALERTS -->
+
+<section id="alerts" class="page">
+
+<h2>⚠ Alerts & Expiry Management</h2>
+
+<div id="alertsContent"></div>
+
+</section>
+
+<!-- SUPPLIERS -->
+
+<section id="suppliers" class="page">
+
+<h2>🚚 Supplier Management</h2>
+
+<div id="supplierContent"></div>
+
+</section>
+
+<!-- PURCHASES -->
+
+<section id="purchases" class="page">
+
+<h2>🛒 Purchase Management</h2>
+
+<div id="purchaseContent"></div>
+
+</section>
+
+<!-- CASH -->
+
+<section id="cash" class="page">
+
+<h2>💵 Daily Cash Report</h2>
+
+<div id="cashContent"></div>
+
+</section>
+
+<!-- REPORTS -->
+
+<section id="reports" class="page">
+
+<h2>📑 Reports Center</h2>
+
+<div id="reportsContent"></div>
+
+</section>
+
+<!-- SAS -->
+
+<section id="sas" class="page">
+
+<h2>🧪 SAS Analytics Center</h2>
+
+<div id="sasContent"></div>
+
+</section>
+
+<!-- HEALTH -->
+
+<section id="health" class="page">
+
+<h2>⚙ System Health</h2>
+
+<div id="healthContent"></div>
+
+</section>
+
+<!-- MODEL -->
+
+<section id="model" class="page">
+
+<h2 id="modelTitle">
+Decision Science
+</h2>
+
+<div id="modelSummary"></div>
+
+<pre id="modelOutput">
+Select a model...
+</pre>
+
+</section>
+
+</main>
+
+</div>
+
+<footer>
+
+Pharmacy Management System V12
+
+</footer>
+
+<script src="app.js"></script>
+
+
+<section id="reports-section" class="panel">
+    <h2>📑 REPORT CENTER</h2>
+
+    <div class="report-card">
+        <h3>📕 Pharmacy Report</h3>
+        <p>Primary official report — PDF</p>
+
+        <div class="report-actions">
+            <a
+                class="button"
+                href="/reports/file?name=pharmacy_report.pdf"
+                target="_blank"
+            >
+                View PDF
+            </a>
+
+            <a
+                class="button"
+                href="/reports/file?name=pharmacy_report.txt"
+                target="_blank"
+            >
+                View TXT
+            </a>
+
+            <a
+                class="button"
+                href="/reports/file?name=pharmacy_report.tex"
+                target="_blank"
+            >
+                View TEX
+            </a>
+        </div>
+
+        <button onclick="compilePharmacyReport()">
+            Generate / Recompile Report
+        </button>
+
+        <pre id="reportCompileStatus"></pre>
+    </div>
+
+    <div class="report-card">
+        <h3>📸 Dashboard Snapshot</h3>
+
+        <a
+            class="button"
+            href="/reports/file?name=snap.txt"
+            target="_blank"
+        >
+            View Snapshot
+        </a>
+    </div>
+
+    <div class="report-card">
+        <h3>ℹ️ Report Policy</h3>
+        <p>
+            PDF is the primary report.
+            Auxiliary LaTeX files (.aux, .log, .out)
+            are intentionally excluded from the Report Center.
+        </p>
+    </div>
+</section>
+
+</body>
+
+</html>

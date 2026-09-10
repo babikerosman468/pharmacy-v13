@@ -1,0 +1,168 @@
+
+\documentclass[12pt]{article}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{cite}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\usepackage{lipsum}
+\usepackage{caption}
+\usepackage{ulem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes}
+\usepackage{sectsty}
+
+%--------- Define Colors ---------
+\definecolor{titleColor}{HTML}{800000}        % Maroon
+\definecolor{sectionColor}{HTML}{4682B4}      % SteelBlue
+\definecolor{subsectionColor}{HTML}{6A5ACD}   % SlateBlue
+\definecolor{textHighlight}{HTML}{DAA520}     % Goldenrod
+\definecolor{backgroundColor}{HTML}{F0F8FF}   % AliceBlue
+\definecolor{emphasisColor}{RGB}{200, 50, 50} % ForestGreen
+
+\sectionfont{\color{sectionColor}}       % Color for \section
+\subsectionfont{\color{subsectionColor}} % Color for \subsection
+
+%--------- Custom Highlight Commands ---------
+\definecolor{lightblue}{RGB}{230, 240, 255}
+\definecolor{lightgreen}{RGB}{220, 255, 220}
+\definecolor{lightred}{RGB}{255, 230, 230}
+\definecolor{lightyellow}{RGB}{255, 255, 200}
+\definecolor{darkblue}{RGB}{0, 51, 102}
+
+\newcommand{\bluehighlight}[1]{\colorbox{lightblue}{#1}}
+\newcommand{\greenhighlight}[1]{\colorbox{lightgreen}{#1}}
+\newcommand{\redhighlight}[1]{\colorbox{lightred}{#1}}
+\newcommand{\yellowhighlight}[1]{\colorbox{lightyellow}{#1}}
+\newcommand{\blue}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\myemphasis}[1]{\textcolor{emphasisColor}{\textbf{#1}}}
+
+%--------- Color Blocks ---------
+\newtcolorbox{blockA}{
+  breakable,
+  colback=blue!5,
+  colframe=blue!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockB}{
+  breakable,
+  colback=red!5,
+  colframe=red!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockC}{
+  breakable,
+  colback=green!5,
+  colframe=green!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockD}{
+  breakable,
+  colback=purple!5,
+  colframe=purple!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+%--------- Title ---------
+\title{\textcolor{titleColor}{\textbf{\Huge Pharmacy V13 integrated  management-intelligence platform }}}
+\author{B. M. Osman\thanks{Al Nahada University, Cairo \\ \texttt{babikerosman@yahoo.com}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+
+\textbf{Study context and scope.}
+Pharmacy V13 is developed in the context of pharmacy operations where
+purchasing, sales, inventory, suppliers, expiry, and financial transactions
+generate substantial operational information but do not, by themselves,
+provide integrated management intelligence. The study addresses the need to
+transform these routine operational records into structured, interpretable,
+and evidence-traceable decision support. The scope encompasses the design and
+integration of an operational pharmacy information system with analytical and
+management-intelligence capabilities, with particular emphasis on supply
+chain analysis, inventory management, demand understanding, risk assessment,
+and model evaluation. The system is intended to support management rather than
+to replace professional judgement or authorise automated decisions.
+
+Pharmacy V13 is therefore conceived as an integrated management intelligence
+system that transforms routine pharmacy operations into structured,
+evidence-based decision support. Rather than functioning solely as a system
+for recording medicines, purchases, sales, inventory, suppliers, and financial
+transactions, V13 establishes a progressive analytical architecture linking
+operational evidence to information, analytical understanding, management
+intelligence, and accountable decision-making.
+
+The system incorporates a dedicated Supply Chain Analysis and Intelligence
+Layer, supported by the REEM intelligence engine, to integrate observed
+purchasing, sales, inventory, supplier, expiry, and demand evidence. Detailed
+computational outputs from analytical models are transformed into management
+summaries, visual analytics, risk and exception indicators, model-readiness
+assessments, and evidence-traceable management signals. The analytical
+portfolio includes demand forecasting, stock coverage, ABC analysis, expiry
+risk, reorder point, safety stock, economic order quantity (EOQ), and Monte
+Carlo uncertainty analysis.
+
+A central principle of the architecture is the distinction between observed
+evidence, derived indicators, model outputs, and decision intelligence. Model
+execution alone is therefore not considered sufficient for operational use.
+Models are assessed according to their analytical purpose and evidence
+requirements. Continuous forecasting models are evaluated through forecast
+error and residual analysis, optimisation models through parameter and
+sensitivity analysis, while appropriate binary classification models may be
+evaluated using confusion matrices, precision, recall, sensitivity,
+specificity, F1 score, calibration, and receiver operating characteristic
+(ROC) analysis with area under the curve (AUROC), where adequate labelled
+historical outcomes exist.
+
+The architecture adopts a progressive model-readiness framework ranging from
+\textit{Available} and \textit{Partial} to \textit{Ready for Extension} and
+\textit{Operationally Validated}. This prevents mathematically completed
+calculations from being interpreted automatically as validated procurement
+recommendations. Instead, Pharmacy V13 positions analytical models as
+transparent instruments for management understanding, risk assessment, and
+decision support.
+
+The study does not claim that every analytical model is operationally
+validated at the point of implementation. The maturity of each model depends
+on the availability, quality, duration, and completeness of historical
+evidence, together with the availability of appropriate model parameters and
+labelled outcomes where required. Consequently, exploratory and descriptive
+analyses may be used where evidence is currently limited, while predictive,
+classification, simulation, and optimisation capabilities are progressively
+validated as the evidence base matures.
+
+The overall objective is to establish a scientifically defensible and
+evidence-traceable pathway from observed pharmacy transactions to reliable
+historical knowledge, validated analytical models, risk-aware prediction,
+responsible optimisation, and accountable management action. Within this
+scope, artificial intelligence, statistical modelling, simulation, and
+decision-support methods are intended to inform management; they do not
+replace human judgement, professional responsibility, or organisational
+governance.
+
+\end{abstract}
+\end{document}

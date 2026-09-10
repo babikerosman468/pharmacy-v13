@@ -1,0 +1,203 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef4f8;
+  color: #243447;
+}
+
+header {
+  background: #17324d;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+.online {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 150px);
+}
+
+aside {
+  width: 245px;
+  background: white;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+}
+
+aside h3 {
+  font-size: 12px;
+  margin-top: 15px;
+  letter-spacing: 1px;
+}
+
+aside button {
+  width: 100%;
+  border: 0;
+  border-radius: 7px;
+  padding: 10px;
+  margin: 3px 0;
+  text-align: left;
+  background: #edf2f7;
+  cursor: pointer;
+}
+
+aside button:hover {
+  background: #dbe7f0;
+}
+
+main {
+  flex: 1;
+  padding: 25px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.card span {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.card strong {
+  font-size: 28px;
+}
+
+.warning {
+  border-left: 5px solid #e6a700;
+}
+
+.danger {
+  border-left: 5px solid #d33;
+}
+
+.actions {
+  margin-top: 25px;
+}
+
+.actions button,
+.toolbar button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+input {
+  padding: 11px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  width: 300px;
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 15px;
+}
+
+th,
+td {
+  padding: 11px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #edf2f7;
+  text-align: left;
+}
+
+pre {
+  background: #111827;
+  color: #e5e7eb;
+  padding: 20px;
+  border-radius: 10px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.report {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 9px;
+}
+
+.report button {
+  margin: 4px;
+  padding: 8px 12px;
+}
+
+footer {
+  text-align: center;
+  background: #17324d;
+  color: white;
+  padding: 15px;
+}
+
+@media(max-width:800px) {
+
+  header {
+    display: block;
+    text-align: center;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  aside {
+    width: 100%;
+    border-right: 0;
+  }
+
+  aside button {
+    width: auto;
+    display: inline-block;
+  }
+
+  main {
+    padding: 15px;
+  }
+}

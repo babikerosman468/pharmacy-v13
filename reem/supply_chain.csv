@@ -1,0 +1,11 @@
+Order_ID,Order_Date,Delivery_Date,Supplier,Product,Quantity,Unit_Cost,Revenue,Average_Inventory,Current_Stock,Reorder_Level,Warehouse,Customer,Region
+1001,2026-01-01,2026-01-05,SupplierA,Laptop,10,500,6000,50,20,15,WH1,Customer1,North
+1002,2026-01-03,2026-01-08,SupplierB,Printer,5,200,1200,30,10,8,WH1,Customer2,South
+1003,2026-01-06,2026-01-10,SupplierA,Monitor,8,150,1600,40,12,10,WH2,Customer3,East
+1004,2026-01-08,2026-01-12,SupplierC,Keyboard,20,25,700,100,50,30,WH2,Customer4,West
+1005,2026-01-10,2026-01-14,SupplierB,Mouse,30,15,750,120,60,40,WH3,Customer5,North
+1006,2026-01-12,2026-01-17,SupplierA,Laptop,12,500,7200,60,25,20,WH1,Customer6,South
+1007,2026-01-15,2026-01-20,SupplierC,Monitor,15,150,3000,45,18,15,WH2,Customer7,East
+1008,2026-01-18,2026-01-23,SupplierB,Printer,7,200,1680,35,11,10,WH3,Customer8,West
+1009,2026-01-20,2026-01-24,SupplierA,Keyboard,25,25,875,90,40,35,WH1,Customer9,North
+1010,2026-01-22,2026-01-27,SupplierC,Mouse,40,15,1000,150,70,50,WH2,Customer10,South

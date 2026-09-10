@@ -1,0 +1,32 @@
+[
+  {
+    "medicine": "panadol",
+    "qty": 4,
+    "total": 120,
+    "date": "2026-06-14T19:03:43.270Z"
+  },
+  {
+    "medicine": "Allopurinol",
+    "qty": 2,
+    "total": 12,
+    "date": "2026-09-06T18:04:55.398Z"
+  },
+  {
+    "medicine": "Ambroxol",
+    "qty": 1,
+    "total": 4,
+    "date": "2026-09-06T18:18:40.726Z"
+  },
+  {
+    "medicine": "Acetylcysteine",
+    "qty": 5,
+    "total": 32.5,
+    "date": "2026-09-07T10:55:15.184Z"
+  },
+  {
+    "medicine": "Acetylcysteine",
+    "qty": 1,
+    "total": 6.5,
+    "date": "2026-09-07T11:12:04.480Z"
+  }
+]

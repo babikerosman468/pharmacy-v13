@@ -1,0 +1,723 @@
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blueColor,
+    urlcolor=blueColor,
+    citecolor=purpleColor
+}
+
+
+\documentclass[12pt]{article}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{cite}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\usepackage{lipsum}
+\usepackage{caption}
+\usepackage{ulem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes}
+\usepackage{sectsty}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blueColor,
+    urlcolor=blueColor,
+    citecolor=purpleColor
+}
+
+%--------- Define Colors ---------
+\definecolor{titleColor}{HTML}{800000}        % Maroon
+\definecolor{sectionColor}{HTML}{4682B4}      % SteelBlue
+\definecolor{subsectionColor}{HTML}{6A5ACD}   % SlateBlue
+\definecolor{textHighlight}{HTML}{DAA520}     % Goldenrod
+\definecolor{backgroundColor}{HTML}{F0F8FF}   % AliceBlue
+\definecolor{emphasisColor}{RGB}{200, 50, 50} % ForestGreen
+
+\sectionfont{\color{sectionColor}}       % Color for \section
+\subsectionfont{\color{subsectionColor}} % Color for \subsection
+
+%--------- Custom Highlight Commands ---------
+\definecolor{lightblue}{RGB}{230, 240, 255}
+\definecolor{lightgreen}{RGB}{220, 255, 220}
+\definecolor{lightred}{RGB}{255, 230, 230}
+\definecolor{lightyellow}{RGB}{255, 255, 200}
+\definecolor{darkblue}{RGB}{0, 51, 102}
+
+\newcommand{\bluehighlight}[1]{\colorbox{lightblue}{#1}}
+\newcommand{\greenhighlight}[1]{\colorbox{lightgreen}{#1}}
+\newcommand{\redhighlight}[1]{\colorbox{lightred}{#1}}
+\newcommand{\yellowhighlight}[1]{\colorbox{lightyellow}{#1}}
+\newcommand{\blue}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\myemphasis}[1]{\textcolor{emphasisColor}{\textbf{#1}}}
+
+%--------- Color Blocks ---------
+\newtcolorbox{blockA}{
+  breakable,
+  colback=blue!5,
+  colframe=blue!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockB}{
+  breakable,
+  colback=red!5,
+  colframe=red!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockC}{
+  breakable,
+  colback=green!5,
+  colframe=green!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\newtcolorbox{blockD}{
+  breakable,
+  colback=purple!5,
+  colframe=purple!40!black,
+  enhanced,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=4mm,right=4mm,top=2mm,bottom=2mm
+}
+
+\input{report_data/abc_summary.tex}
+
+\sectionfont{\color{titleColor}}
+\subsectionfont{\color{blueColor}}
+
+\title{ \textcolor{titleColor}{ \Huge\bfseries REEM V2\\[0.3cm] ABC Inventory Intelligence }}
+
+\author{ Research and Development Report\\ REEM Intelligence Engine }
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[
+    colback=titleColor!5,
+    colframe=titleColor,
+    title=\textbf{Development Status},
+    breakable
+]
+This report documents the ABC Inventory Intelligence component of REEM V2.
+The underlying dataset is synthetic development data generated for model
+development and validation. It is not operational pharmacy evidence and must
+not be used for real procurement or inventory decisions.
+\end{tcolorbox}
+
+\newpage
+
+\section{Executive Summary}
+
+ABC analysis provides a value-based prioritisation of medicines according to
+their observed consumption value. It complements the REEM Inventory
+Intelligence model, which focuses on stock sufficiency and reorder decisions.
+
+The current development dataset contains
+\textbf{\ABCTotalMedicines\ medicines} observed over
+\textbf{\ABCObservationDays\ days}. Annualised consumption value is estimated
+from observed sales quantity and medicine unit cost.
+
+The total annualised consumption value is
+\textbf{\ABCTotalValue}.
+
+The resulting classification is:
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Class & Medicines & Value & Share\\
+\midrule
+A & 16 & 1,157,967.33 & 78.52\%\\
+B & 16 & 241,111.57 & 16.35\%\\
+C & 18 & 75,531.44 & 5.12\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The A class contains only 16 medicines but represents 78.52\% of annualised consumption value.  This makes A-class medicines the primary management priority in a value-based inventory control framework.
+
+\section{Purpose}
+
+The purpose of ABC Inventory Intelligence is to transform pharmacy
+consumption evidence into a management-priority structure.
+
+The analytical question is:
+
+\begin{quote}
+\textit{Which medicines account for the largest share of consumption value
+and therefore deserve the greatest management attention?}
+\end{quote}
+
+ABC analysis is not intended to replace demand forecasting, reorder-point
+analysis, safety-stock modelling, expiry analysis, or supplier intelligence.
+It is a complementary management layer.
+
+\section{Position in the REEM Architecture}
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.2cm,
+    box/.style={
+        rectangle,
+        rounded corners,
+        draw=blueColor,
+        thick,
+        minimum width=5.2cm,
+        minimum height=0.9cm,
+        align=center
+    },
+    arrow/.style={
+        -{Latex[length=3mm]},
+        thick,
+        draw=purpleColor
+    }
+]
+
+\node[box] (data) {Operational Pharmacy Data\\Sales and Consumption};
+\node[box, below=of data] (quality) {Data Quality\\Observation Period};
+\node[box, below=of quality] (value) {Consumption Value\\Quantity $\times$ Unit Cost};
+\node[box, below=of value] (annual) {Annualisation\\365-Day Equivalent};
+\node[box, below=of annual] (abc) {ABC Classification\\A / B / C};
+\node[box, below=of abc] (decision) {Management Priority\\HIGH / MEDIUM / LOW};
+
+\draw[arrow] (data) -- (quality);
+\draw[arrow] (quality) -- (value);
+\draw[arrow] (value) -- (annual);
+\draw[arrow] (annual) -- (abc);
+\draw[arrow] (abc) -- (decision);
+
+\end{tikzpicture}
+\end{center}
+
+\section{Evidence Architecture}
+
+ABC V1 uses observed sales as the consumption evidence.
+
+For each medicine:
+
+\begin{equation}
+V_i = Q_i \times C_i
+\end{equation}
+
+where:
+
+\begin{itemize}
+    \item $Q_i$ is observed quantity consumed,
+    \item $C_i$ is unit acquisition cost,
+    \item $V_i$ is observed consumption value.
+\end{itemize}
+
+Because the observation period is not exactly one year, consumption is
+annualised:
+
+\begin{equation}
+Q_{i,annual}
+=
+Q_i
+\left(
+\frac{365}{D}
+\right)
+\end{equation}
+
+where $D$ is the observed number of calendar days.
+
+Annualised consumption value is therefore:
+
+\begin{equation}
+V_{i,annual}
+=
+Q_{i,annual} \times C_i
+\end{equation}
+
+This produces a common annual-equivalent scale for ranking medicines.
+
+\section{Why Consumption Value Is Used}
+
+ABC analysis is fundamentally a value-prioritisation method.
+
+The model deliberately does not classify medicines according to:
+
+\begin{itemize}
+    \item current stock quantity,
+    \item current stock value,
+    \item forecast demand alone,
+    \item medicine criticality alone,
+    \item selling price alone.
+\end{itemize}
+
+Instead, it combines observed consumption quantity with unit cost.
+
+This distinction is important because a medicine may have high physical
+volume but relatively low financial consumption, while another medicine may
+have lower unit movement but substantially higher consumption value.
+
+\section{Classification Method}
+
+Medicines are sorted in descending order of annualised consumption value.
+
+For each medicine, its percentage contribution is calculated as:
+
+\begin{equation}
+P_i =
+\frac{V_{i,annual}}
+{\sum_j V_{j,annual}}
+\times 100
+\end{equation}
+
+The cumulative percentage is then calculated in descending value order.
+
+The development thresholds are:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Class & Cumulative value boundary & Priority\\
+\midrule
+A & up to approximately 80\% & HIGH\\
+B & above A to approximately 95\% & MEDIUM\\
+C & remaining value & LOW\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The implementation uses the cumulative threshold at each ranked medicine,
+so the resulting class boundary is data-driven rather than forcing an exact
+number of medicines into each class.
+
+\section{Current Development Results}
+
+The current REEM V2 synthetic world contains:
+
+\begin{itemize}
+    \item \textbf{50 medicines}
+    \item \textbf{1348 days} of observation
+    \item \textbf{1,474,610.34} annualised consumption value
+    \item \textbf{16 A-class medicines}
+    \item \textbf{16 B-class medicines}
+    \item \textbf{18 C-class medicines}
+\end{itemize}
+
+The A class represents \textbf{78.52\%} of annualised consumption value.
+The B class represents \textbf{16.35\%} of annualised consumption value.
+
+The C class represents \textbf{5.12\%} of annualised consumption value.
+
+\section{ABC Value Distribution}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.92\textwidth,
+    height=8cm,
+    xlabel={Medicine rank by annualised consumption value},
+    ylabel={Cumulative consumption value (\%)},
+    xmin=1,
+    xmax=50,
+    ymin=0,
+    ymax=105,
+    grid=major,
+    thick
+]
+\addplot[
+    mark=*,
+    mark size=1.2pt
+] coordinates {
+\input{report_data/abc_curve.tex}
+};
+\addplot[
+    dashed,
+    domain=1:50
+] coordinates {(1,80) (50,80)};
+\addplot[
+    dashed,
+    domain=1:50
+] coordinates {(1,95) (50,95)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+The curve demonstrates the concentration of consumption value among the
+highest-ranked medicines. The A boundary captures the dominant portion of
+value, while the remaining medicines account for progressively smaller
+individual contributions.
+
+\section{Top Consumption-Value Medicines}
+
+\begin{longtable}{rllrrrr}
+\toprule
+Rank & ID & Medicine & Annual Value & Share & Cumulative & Class\\
+\midrule
+\input{report_data/abc_top10.tex}
+\bottomrule
+\end{longtable}
+
+The ranking identifies the medicines that should receive the strongest
+value-based management attention.
+
+\section{Management Interpretation}
+
+The current development results support a simple management principle:
+
+\begin{tcolorbox}[
+    colback=goldColor!8,
+    colframe=goldColor,
+    title=\textbf{Management Principle},
+    breakable
+]
+Not every medicine requires the same intensity of inventory control.
+Management effort should be concentrated according to the economic importance
+of the medicine within the observed consumption portfolio.
+\end{tcolorbox}
+
+\subsection{A-Class Medicines}
+
+A-class medicines represent the largest share of consumption value.
+
+Recommended management attention includes:
+
+\begin{itemize}
+    \item closer monitoring of demand,
+    \item stronger procurement planning,
+    \item tighter stock-control thresholds,
+    \item regular review of supplier performance,
+    \item stronger expiry surveillance,
+    \item more frequent management review.
+\end{itemize}
+
+\subsection{B-Class Medicines}
+
+B-class medicines have intermediate economic importance.
+
+They can normally receive standard inventory-control procedures while remaining
+visible to management through periodic review.
+
+\subsection{C-Class Medicines}
+
+C-class medicines represent the smaller share of consumption value.
+
+They may be managed using simpler control procedures, provided that clinical
+criticality and other risk factors are considered separately.
+
+\section{ABC Is Not Clinical Criticality}
+
+ABC classification must not be interpreted as a measure of clinical
+importance.
+
+A low-value medicine can still be clinically essential.
+
+Therefore:
+
+\begin{equation}
+\text{Management Priority}
+\neq
+\text{Clinical Criticality}
+\end{equation}
+
+REEM should ultimately combine ABC value priority with medicine criticality,
+expiry risk, stockout risk, and demand uncertainty.
+
+\section{Relationship With Inventory Intelligence}
+
+ABC and Inventory Intelligence answer different questions.
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={
+        rectangle,
+        rounded corners,
+        draw=blueColor,
+        thick,
+        minimum width=5.0cm,
+        minimum height=1.0cm,
+        align=center
+    },
+    arrow/.style={
+        -{Latex[length=3mm]},
+        thick,
+        draw=purpleColor
+    }
+]
+
+\node[box] (abc) {ABC Intelligence\\
+Which medicines matter most by value?};
+
+\node[box, right=2cm of abc] (inv) {Inventory Intelligence\\
+Which medicines need stock action?};
+
+\node[box, below=1.7cm of abc] (combined) {REEM Management Intelligence\\
+What deserves attention and what action is appropriate?};
+
+\draw[arrow] (abc) -- (combined);
+\draw[arrow] (inv) -- (combined);
+
+\end{tikzpicture}
+\end{center}
+
+This separation is central to the REEM architecture.
+
+ABC provides prioritisation.
+
+Inventory Intelligence provides stock-state interpretation.
+
+Together they form a stronger management decision layer.
+
+\section{Evidence Quality}
+
+The current ABC model is analytically coherent, but its evidence status remains
+developmental.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Dimension & Status\\
+\midrule
+Data source & SIMULATED\_REEM\_V2\\
+Data status & DEVELOPMENT\\
+Observation period & 1348 days\\
+Medicines analysed & 50\\
+Classification completeness & 50/50\\
+Operational use & PROHIBITED\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The classification is therefore a validated development result, not an
+operational pharmacy finding.
+
+\section{Model Integrity Validation}
+
+The ABC validation confirmed:
+
+\begin{itemize}
+    \item 50 medicines were classified;
+    \item A/B/C classes contain 16, 16, and 18 medicines respectively;
+    \item total annualised value is 1,474,610.34;
+    \item final cumulative value is 100\%;
+    \item every medicine belongs to exactly one ABC class;
+    \item the class shares sum to approximately 100\%.
+\end{itemize}
+
+These checks support the internal integrity of ABC V1.
+
+\section{Limitations}
+
+Several limitations remain.
+
+\subsection{Synthetic Data}
+
+The entire current dataset is synthetic and was generated for REEM
+development. It does not represent real pharmacy operations.
+
+\subsection{Observed Consumption}
+
+The model assumes that observed sales provide a useful representation of
+consumption.
+
+Future operational versions should distinguish sales from true demand,
+including:
+
+\begin{itemize}
+    \item unfilled demand,
+    \item stockout periods,
+    \item substitutions,
+    \item returns,
+    \item emergency requests,
+    \item demand requests not converted into sales.
+\end{itemize}
+
+\subsection{Cost Assumption}
+
+The current calculation uses medicine unit cost as the value basis.
+
+Future versions may incorporate time-varying acquisition cost and procurement
+conditions.
+
+\subsection{Single-Dimension Classification}
+
+ABC is intentionally a value-based classification. It should eventually be
+combined with other dimensions rather than treated as a complete inventory
+risk model.
+
+\section{Next Development Stage}
+
+The next REEM development stages can extend ABC toward a multidimensional
+inventory intelligence framework:
+
+\begin{enumerate}
+    \item ABC value classification;
+    \item criticality classification;
+    \item demand variability;
+    \item expiry risk;
+    \item supplier performance;
+    \item stockout risk;
+    \item service-level requirements;
+    \item integrated management priority.
+\end{enumerate}
+
+A future matrix could therefore distinguish:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ABC Value & Clinical Criticality & Management Interpretation\\
+\midrule
+A & High & Highest attention\\
+A & Low & High economic attention\\
+C & High & High clinical attention\\
+C & Low & Routine attention\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This would move REEM beyond conventional ABC analysis toward integrated
+decision intelligence.
+
+\section{Management Intelligence Perspective}
+
+ABC analysis is valuable because it reduces a large inventory portfolio to a
+manageable management structure.
+
+Instead of treating 50 medicines equally, REEM identifies the smaller group
+that accounts for most of the consumption value.
+
+The analytical chain is:
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.1cm,
+    box/.style={
+        rectangle,
+        rounded corners,
+        draw=purpleColor,
+        thick,
+        minimum width=4.5cm,
+        minimum height=0.8cm,
+        align=center
+    },
+    arrow/.style={
+        -{Latex[length=3mm]},
+        thick,
+        draw=goldColor
+    }
+]
+
+\node[box] (obs) {Observed Consumption};
+\node[box, below=of obs] (val) {Consumption Value};
+\node[box, below=of val] (rank) {Value Ranking};
+\node[box, below=of rank] (class) {ABC Classification};
+\node[box, below=of class] (priority) {Management Priority};
+
+\draw[arrow] (obs) -- (val);
+\draw[arrow] (val) -- (rank);
+\draw[arrow] (rank) -- (class);
+\draw[arrow] (class) -- (priority);
+
+\end{tikzpicture}
+\end{center}
+
+This is the central contribution of ABC Intelligence within REEM V2.
+
+\section{Conclusion}
+
+ABC Inventory Intelligence V1 successfully transforms observed consumption
+data into a value-based management classification.
+
+In the current synthetic development world, 16 medicines form the A class and
+represent approximately 78.5\% of annualised consumption value. Sixteen
+medicines form the B class, while eighteen form the C class.
+
+The model is internally validated and provides a clear management
+prioritisation layer.
+
+However, the evidence remains synthetic and developmental. The model must
+therefore remain explicitly separated from operational pharmacy decision
+making until it is tested against longitudinal real-world data.
+
+The next stage is not simply to produce more ABC classifications. It is to
+combine ABC value importance with demand, stock, expiry, supplier, and
+clinical-risk evidence so that REEM can progress from classification toward
+integrated management intelligence.
+
+\vfill
+
+\begin{tcolorbox}[
+    colback=titleColor!5,
+    colframe=titleColor,
+    title=\textbf{REEM V2 Evidence Boundary},
+    breakable
+]
+\centering
+\textbf{SIMULATED\_REEM\_V2}\\
+\textbf{DEVELOPMENT}\\
+\textbf{OPERATIONAL USE PROHIBITED}
+\end{tcolorbox}
+
+\end{document}
+
+
+
+
+
+
+\section{Current Development Results}
+
+The current REEM V2 synthetic world contains:
+
+\begin{itemize}
+    \item \textbf{50 medicines}
+    \item \textbf{1348 days} of observation
+    \item \textbf{1,474,610.34} annualised consumption value
+    \item \textbf{16 A-class medicines}
+    \item \textbf{16 B-class medicines}
+    \item \textbf{18 C-class medicines}
+\end{itemize}
+
+The A class contains only \textbf{16 medicines} but represents
+\textbf{78.52\%} of annualised consumption value.
+
+The B class represents \textbf{16.35\%} of annualised consumption value.
+
+The C class represents \textbf{5.12\%} of annualised consumption value.
+

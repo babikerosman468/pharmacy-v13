@@ -1,0 +1,266 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+set -e
+
+echo "============================================================"
+echo " PHARMACY V13 — ONESHOT8"
+echo " SUPPLIER + PURCHASE + STOCK-IN FOUNDATION"
+echo "============================================================"
+
+ROOT="$HOME/pharmacy-v13"
+cd "$ROOT"
+
+STAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP="backups/oneshot8_${STAMP}"
+
+mkdir -p "$BACKUP"
+
+echo
+echo "[1/8] Creating backup..."
+
+cp web_server.js "$BACKUP/web_server.js"
+cp data/medicines.json "$BACKUP/medicines.json"
+cp data/suppliers.json "$BACKUP/suppliers.json"
+cp data/purchases.json "$BACKUP/purchases.json"
+cp data/audit.json "$BACKUP/audit.json"
+
+echo "Backup: $BACKUP"
+
+echo
+echo "[2/8] Validating JSON data..."
+
+import json
+
+files = [
+    "data/medicines.json",
+    "data/suppliers.json",
+    "data/purchases.json",
+    "data/audit.json"
+]
+
+for f in files:
+    with open(f, encoding="utf-8") as x:
+        json.load(x)
+    print("PASS:", f)
+echo
+echo "[3/8] Patching web_server.js..."
+
+from pathlib import Path
+
+p = Path("web_server.js")
+s = p.read_text(encoding="utf-8")
+
+if "function readRequestBody(req)" in s:
+    print("Inventory foundation already installed.")
+    raise SystemExit(0)
+
+marker = 'function json(res, data, status = 200) {\n'
+
+helper = r'''
+function writeJSON(file, data) {
+    const temp = file + ".tmp";
+    fs.writeFileSync(
+        temp,
+        JSON.stringify(data, null, 2),
+        "utf8"
+    );
+    fs.renameSync(temp, file);
+}
+
+function readRequestBody(req) {
+    return new Promise((resolve, reject) => {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk;
+
+            if (body.length > 1024 * 1024) {
+                reject(new Error("Request body too large"));
+                req.destroy();
+            }
+        });
+
+        req.on("end", () => {
+            if (!body.trim()) {
+                resolve({});
+                return;
+            }
+
+            try {
+                resolve(JSON.parse(body));
+            } catch {
+                reject(new Error("Invalid JSON"));
+            }
+        });
+
+        req.on("error", reject);
+    });
+}
+
+function audit(action, details = {}) {
+    const file = path.join(DATA, "audit.json");
+    const logs = readJSON(file);
+
+    logs.push({
+        action,
+        time: new Date().toISOString(),
+        ...details
+    });
+
+    writeJSON(file, logs);
+}
+
+function nextId(records) {
+    if (!records.length) return 1;
+
+    return Math.max(
+        ...records.map(x => Number(x.id) || 0)
+    ) + 1;
+}
+
+'''
+
+if marker not in s:
+    raise SystemExit("ERROR: json() marker not found")
+
+s = s.replace(marker, helper + marker, 1)
+
+route_marker = '''
+    // --------------------------------------------------------
+    // EXISTING / CORE API
+    // --------------------------------------------------------
+'''
+
+routes = r'''
+    // --------------------------------------------------------
+    // SUPPLIER API
+    // --------------------------------------------------------
+
+    if (
+        req.method === "GET" &&
+        url.pathname === "/api/suppliers"
+    ) {
+        return json(
+            res,
+            readJSON(path.join(DATA, "suppliers.json"))
+        );
+    }
+
+    if (
+        req.method === "POST" &&
+        url.pathname === "/api/suppliers"
+    ) {
+        try {
+            const body = await readRequestBody(req);
+
+            const name = String(body.name || "").trim();
+            const phone = String(body.phone || "").trim();
+            const address = String(body.address || "").trim();
+
+            if (!name) {
+                return json(
+                    res,
+                    { error: "Supplier name is required" },
+                    400
+                );
+            }
+
+            const file = path.join(DATA, "suppliers.json");
+            const suppliers = readJSON(file);
+
+            const duplicate = suppliers.find(
+                s => String(s.name || "").toLowerCase() === name.toLowerCase()
+            );
+
+            if (duplicate) {
+                return json(
+                    res,
+                    {
+                        error: "Supplier already exists",
+                        supplier: duplicate
+                    },
+                    409
+                );
+            }
+
+            const supplier = {
+                id: nextId(suppliers),
+                name,
+                phone,
+                address,
+                createdAt: new Date().toISOString()
+            };
+
+            suppliers.push(supplier);
+            writeJSON(file, suppliers);
+
+            audit("SUPPLIER_ADD", {
+                supplierId: supplier.id,
+                supplierName: supplier.name
+            });
+
+            return json(res, supplier, 201);
+
+        } catch (e) {
+            return json(
+                res,
+                { error: e.message || String(e) },
+                400
+            );
+        }
+    }
+
+    // --------------------------------------------------------
+    // PURCHASE API
+    // --------------------------------------------------------
+
+    if (
+        req.method === "GET" &&
+        url.pathname === "/api/purchases"
+    ) {
+        return json(
+            res,
+            readJSON(path.join(DATA, "purchases.json"))
+        );
+    }
+
+    if (
+        req.method === "POST" &&
+        url.pathname === "/api/purchases"
+    ) {
+        try {
+            const body = await readRequestBody(req);
+
+            const supplierId = Number(body.supplierId);
+            const medicineId = Number(body.medicineId);
+            const quantity = Number(body.quantity);
+            const unitCost = Number(body.unitCost || 0);
+
+            if (!Number.isInteger(supplierId) || supplierId <= 0) {
+                return json(
+                    res,
+                    { error: "Valid supplierId is required" },
+                    400
+                );
+            }
+
+            if (!Number.isInteger(medicineId) || medicineId <= 0) {
+                return json(
+                    res,
+                    { error: "Valid medicineId is required" },
+                    400
+                );
+            }
+
+            if (!Number.isFinite(quantity) || quantity <= 0) {
+                return json(
+                    res,
+                    { error: "Quantity must be greater than zero" },
+                    400
+                );
+            }
+
+            if (!Number.isFinite(unitCost) || unitCost < 0) {
+                return json(
+                    res,
+                    { error: "Unit
