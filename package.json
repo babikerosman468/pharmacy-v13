@@ -1,0 +1,8 @@
+{
+  "name": "pharmacy-v13",
+  "version": "13.0.0",
+  "private": true,
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2"
+  }
+}
