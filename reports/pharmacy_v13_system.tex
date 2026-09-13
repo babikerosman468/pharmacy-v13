@@ -1,0 +1,840 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,margin=2.1cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setmainfont{TeX Gyre Pagella}
+
+\usepackage{xcolor}
+\definecolor{maroon}{HTML}{800000}
+\definecolor{steel}{HTML}{4682B4}
+\definecolor{slate}{HTML}{6A5ACD}
+\definecolor{gold}{HTML}{DAA520}
+\definecolor{darkgray}{HTML}{333333}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds,calc}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=maroon,
+  urlcolor=steel
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textcolor{maroon}{Pharmacy V13}}
+\rhead{\textcolor{steel}{System Architecture and Management}}
+\cfoot{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\newtcolorbox{keybox}{
+  colback=maroon!4,
+  colframe=maroon!75!black,
+  boxrule=0.8pt,
+  arc=2mm,
+  left=5mm,
+  right=5mm,
+  top=3mm,
+  bottom=3mm
+}
+
+\newtcolorbox{notebox}{
+  colback=steel!5,
+  colframe=steel,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=5mm,
+  right=5mm,
+  top=3mm,
+  bottom=3mm
+}
+
+\newtcolorbox{goldbox}{
+  colback=gold!8,
+  colframe=gold!70!black,
+  boxrule=0.7pt,
+  arc=2mm,
+  left=5mm,
+  right=5mm,
+  top=3mm,
+  bottom=3mm
+}
+
+\newcommand{\area}[1]{\textcolor{maroon}{\textbf{#1}}}
+\newcommand{\live}{\textcolor{steel}{\textbf{LIVE}}}
+\newcommand{\simulated}{\textcolor{slate}{\textbf{SIMULATED DEVELOPMENT DATA}}}
+
+\title{
+\textcolor{maroon}{\Huge\textbf{Pharmacy V13}}\\[5pt]
+\Large System Architecture, Management and Decision Intelligence
+}
+
+\author{
+\textbf{Prof. Babiker Malik Osman, PhD}\\
+Biomedical Data Scientist \;\textbullet\; System Biologist
+}
+
+\date{September 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{keybox}
+\textbf{Pharmacy V13 is a management and decision-intelligence system, not merely an inventory application.}
+
+The system connects operational pharmacy activity with monitoring, quantitative intelligence, evidence-based decision support, management action, reporting, security, testing, and continuous feedback.
+\end{keybox}
+
+\section*{Executive Summary}
+
+Pharmacy V13 is an integrated digital pharmacy management platform designed to transform operational activity into structured information, analytical evidence, management decisions, and controlled action.
+
+The central architecture is:
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=0.55cm,
+flow/.style={
+rounded corners,
+draw=maroon,
+very thick,
+fill=maroon!5,
+minimum width=2.25cm,
+minimum height=0.9cm,
+align=center,
+font=\small\bfseries
+},
+arrow/.style={-{Latex[length=2.5mm]},thick,gray!70!black}
+]
+\node[flow] (data) {Operational\\Data};
+\node[flow,right=of data] (intel) {Intelligence};
+\node[flow,right=of intel] (evidence) {Evidence};
+\node[flow,right=of evidence] (decision) {Decision};
+\node[flow,right=of decision] (action) {Action};
+\node[flow,right=of action] (feedback) {Feedback};
+
+\draw[arrow] (data)--(intel);
+\draw[arrow] (intel)--(evidence);
+\draw[arrow] (evidence)--(decision);
+\draw[arrow] (decision)--(action);
+\draw[arrow] (action)--(feedback);
+\draw[arrow] (feedback.south) to[out=-90,in=-90] (data.south);
+\end{tikzpicture}
+\end{center}
+
+The current production environment is deployed through Vercel with PostgreSQL provided by Neon. Authentication, role-based access, protected APIs, operational transactions, reporting, intelligence services, audit mechanisms, and system-health services form one integrated platform.
+
+The verified live production baseline includes:
+
+\begin{itemize}[leftmargin=1cm]
+\item 120 medicines;
+\item 2 suppliers;
+\item 7 recorded sales;
+\item 3 purchase records;
+\item current Daily Cash revenue of 194;
+\item authenticated and role-controlled management access;
+\item protected operational APIs;
+\item Vercel cloud deployment;
+\item Neon PostgreSQL connectivity;
+\item REEM V2 decision-intelligence models;
+\item reporting and system snapshot functions; and
+\item \textbf{45 PASS / 0 FAIL} in the functional verification suite.
+\end{itemize}
+
+\begin{goldbox}
+\textbf{Important data-integrity principle:}
+Live operational data and REEM V2 simulated development data are not interchangeable.
+
+The production database represents actual system transactions. REEM V2 development datasets are used to validate analytical architecture and decision models and must not be presented as live pharmacy observations.
+\end{goldbox}
+
+\section*{1. System Purpose}
+
+The purpose of Pharmacy V13 is to provide a coherent management environment in which pharmacy operations, information, analytics, decisions, and technical infrastructure are connected.
+
+The system addresses six fundamental management questions:
+
+\begin{enumerate}[leftmargin=1cm]
+\item What is happening?
+\item What has happened?
+\item What does the data indicate?
+\item What deserves attention?
+\item What action should management consider?
+\item How can the decision and its outcome be documented and reviewed?
+\end{enumerate}
+
+This makes Pharmacy V13 a management information and decision-support platform rather than a collection of isolated screens.
+
+\section*{2. Integrated System Architecture}
+
+The system is organized into five functional areas:
+
+\begin{enumerate}[leftmargin=1cm]
+\item \area{Control Center} --- see the current state.
+\item \area{Operations} --- perform and record daily activity.
+\item \area{Decision Intelligence} --- transform data into analytical evidence.
+\item \area{Reporting} --- document and communicate results.
+\item \area{Engineering} --- provide security, infrastructure, reliability, testing, and maintenance.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[
+box/.style={
+rounded corners,
+draw=#1,
+very thick,
+fill=#1!7,
+minimum width=3.1cm,
+minimum height=1.15cm,
+align=center,
+font=\small\bfseries
+},
+arrow/.style={-{Latex[length=3mm]},thick,gray!70!black}
+]
+
+\node[box=maroon] (control) {CONTROL CENTER\\See};
+\node[box=steel,right=0.75cm of control] (operations) {OPERATIONS\\Do};
+\node[box=slate,right=0.75cm of operations] (decision) {DECISION\\Understand};
+\node[box=gold,right=0.75cm of decision] (report) {REPORTING\\Communicate};
+
+\node[box=maroon,below=1.25cm of operations,minimum width=4.2cm]
+(engineering) {ENGINEERING\\Build, Protect \& Maintain};
+
+\draw[arrow] (operations)--(control);
+\draw[arrow] (operations)--(decision);
+\draw[arrow] (decision)--(report);
+\draw[arrow] (engineering)--(operations);
+\draw[arrow] (engineering)--(decision);
+\draw[arrow] (engineering)--(report);
+
+\end{tikzpicture}
+\end{center}
+
+These are different views of one integrated system, not independent applications.
+
+\section*{3. Cloud and Technical Architecture}
+
+The current production architecture separates the management interface, API services, database, authentication, and analytical intelligence.
+
+\begin{center}
+\begin{tikzpicture}[
+layer/.style={
+rounded corners,
+draw=maroon,
+thick,
+minimum width=11cm,
+minimum height=0.82cm,
+align=center,
+fill=maroon!5
+},
+arr/.style={-{Latex[length=2.5mm]},thick,gray}
+]
+
+\node[layer] (web) {Web Application / Management Interface};
+\node[layer,below=0.35cm of web] (api) {Vercel API Services / Protected Endpoints};
+\node[layer,below=0.35cm of api] (auth) {Authentication / JWT / Role-Based Access};
+\node[layer,below=0.35cm of auth] (db) {Neon PostgreSQL / Operational Data};
+\node[layer,below=0.35cm of db] (reem) {REEM V2 / Analytical Evidence / AI Interpretation};
+
+\draw[arr] (web)--(api);
+\draw[arr] (api)--(auth);
+\draw[arr] (auth)--(db);
+\draw[arr] (db)--(reem);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Production Components}
+
+\begin{itemize}[leftmargin=1cm]
+\item \textbf{Frontend:} browser-based Pharmacy V13 management interface.
+\item \textbf{Cloud platform:} Vercel production deployment.
+\item \textbf{Database:} Neon PostgreSQL.
+\item \textbf{API layer:} protected Vercel API services.
+\item \textbf{Authentication:} application-managed authentication using secure password hashing and JWT sessions.
+\item \textbf{Authorization:} role-based access control.
+\item \textbf{Analytics:} REEM V2 decision-intelligence layer.
+\item \textbf{Reporting:} controlled system reports, snapshots, and analytical outputs.
+\end{itemize}
+
+\section*{4. Authentication and Role-Based Access}
+
+Security is part of the system architecture rather than an optional interface feature.
+
+Pharmacy V13 uses application-specific authentication integrated with the production database.
+
+The principal roles are:
+
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{lX}
+\toprule
+\textbf{Role} & \textbf{Management responsibility}\\
+\midrule
+Administrator & Full system administration and privileged operations.\\
+Manager & Operational management and controlled transaction functions.\\
+Analyst & Analysis, intelligence, reporting, and evidence review.\\
+Viewer & Read-only access to authorized information.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Protected APIs require authentication. The health endpoint remains publicly available for service monitoring.
+
+Write operations such as sales and inventory stock transactions are restricted to authorized management roles.
+
+\begin{notebox}
+\textbf{Security principle:}
+Authentication establishes who the user is; authorization determines what that user is permitted to do.
+\end{notebox}
+
+\section*{5. Control Center --- See}
+
+The Control Center provides the management view of the current operational state.
+
+Typical indicators include:
+
+\begin{itemize}[leftmargin=1cm]
+\item medicine count;
+\item sales and revenue;
+\item inventory quantity and value;
+\item stock alerts;
+\item expiry status;
+\item supplier and procurement status;
+\item decision-intelligence status;
+\item daily cash;
+\item system health; and
+\item management snapshots.
+\end{itemize}
+
+The Control Center answers:
+
+\begin{center}
+\textbf{What is happening in the pharmacy now?}
+\end{center}
+
+\section*{6. Pharmacy Operations --- Do}
+
+The operational layer records the events that create the pharmacy's digital state.
+
+The main operational entities are:
+
+\begin{itemize}[leftmargin=1cm]
+\item medicines;
+\item suppliers;
+\item purchases;
+\item inventory;
+\item sales;
+\item stock-in transactions;
+\item stock-out transactions;
+\item cash activity; and
+\item operational alerts.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=0.7cm,
+flow/.style={
+rounded corners,
+draw=steel,
+thick,
+fill=steel!7,
+minimum width=2.35cm,
+minimum height=0.85cm,
+align=center,
+font=\small\bfseries
+},
+a/.style={-{Latex[length=2.5mm]},thick,steel}
+]
+
+\node[flow] (supplier) {Supplier};
+\node[flow,right=of supplier] (purchase) {Purchase};
+\node[flow,right=of purchase] (inventory) {Inventory};
+\node[flow,right=of inventory] (sale) {Sale};
+\node[flow,right=of sale] (cash) {Cash};
+
+\draw[a] (supplier)--(purchase);
+\draw[a] (purchase)--(inventory);
+\draw[a] (inventory)--(sale);
+\draw[a] (sale)--(cash);
+
+\end{tikzpicture}
+\end{center}
+
+Every transaction contributes to the evidence available for management and analytical decision-making.
+
+\section*{7. Daily Cash}
+
+Daily Cash provides a concise financial view of recorded sales.
+
+The current production checkpoint reports:
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+\textbf{Indicator} & \textbf{Current value}\\
+\midrule
+Recorded sales & 7\\
+Revenue & 194\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The purpose of Daily Cash is not to replace formal accounting. It provides an operational management view derived from system transactions.
+
+\section*{8. REEM V2 Decision Intelligence}
+
+REEM V2 is the analytical decision-intelligence layer of Pharmacy V13.
+
+Its role is to transform structured operational or development data into analytical evidence that can be interpreted by management and AI.
+
+The principal models are:
+
+\begin{enumerate}[leftmargin=1cm]
+\item Demand Forecasting
+\item ABC Analysis
+\item Expiry Risk
+\item Stock Coverage
+\item Supplier Analysis
+\item Reorder Point
+\item Safety Stock
+\item Economic Order Quantity
+\end{enumerate}
+
+Additional risk analysis includes Monte Carlo simulation where appropriate.
+
+\begin{keybox}
+\textbf{REEM V2 calculates evidence; AI interprets the evidence.}
+
+REEM V2 is responsible for quantitative analytical evidence. AI provides a management interpretation of that evidence. The two functions should remain conceptually distinguishable.
+\end{keybox}
+
+\section*{9. Forecasting}
+
+Demand forecasting estimates future demand from available historical demand information.
+
+The purpose is not simply to produce a number. Forecasting provides a quantitative basis for:
+
+\begin{itemize}[leftmargin=1cm]
+\item procurement planning;
+\item stock planning;
+\item replenishment decisions;
+\item capacity planning; and
+\item identification of changing demand patterns.
+\end{itemize}
+
+Forecasts should always be interpreted together with data quality, observation history, and uncertainty.
+
+\section*{10. ABC Analysis}
+
+ABC analysis prioritizes medicines according to their relative contribution to the selected value measure.
+
+Its management purpose is to answer:
+
+\begin{center}
+\textbf{Which medicines deserve the greatest management attention?}
+\end{center}
+
+ABC classification can support differentiated control policies, monitoring frequency, procurement attention, and resource allocation.
+
+It is therefore a prioritization tool rather than a simple classification table.
+
+\section*{11. Reorder Point and Safety Stock}
+
+Reorder Point determines when replenishment should be initiated.
+
+Safety Stock provides protection against uncertainty in demand and replenishment lead time.
+
+Conceptually:
+
+\begin{center}
+\textbf{Reorder Point = Expected Lead-Time Demand + Safety Stock}
+\end{center}
+
+The models therefore connect demand evidence with operational replenishment decisions.
+
+\begin{notebox}
+A replenishment signal should be interpreted in relation to current stock, expected demand, lead time, uncertainty, and management policy.
+\end{notebox}
+
+\section*{12. Expiry Risk}
+
+Expiry analysis identifies medicines and batches that require management attention because of remaining shelf life.
+
+Expiry intelligence can support:
+
+\begin{itemize}[leftmargin=1cm]
+\item prioritization of stock;
+\item FEFO-oriented management;
+\item reduction of avoidable losses;
+\item procurement review; and
+\item early intervention before expiry.
+\end{itemize}
+
+The analytical distinction between batch-level observations and medicine-level summaries must be preserved when interpreting expiry results.
+
+\section*{13. Economic Order Quantity}
+
+EOQ provides a classical analytical framework for balancing ordering and holding costs under its underlying assumptions.
+
+The conceptual model is:
+
+\begin{center}
+\textbf{Optimal Order Quantity balances ordering cost and holding cost.}
+\end{center}
+
+EOQ is therefore a decision-support model, not an automatic purchasing command.
+
+Management must consider supplier constraints, minimum order quantities, expiry, cash availability, demand uncertainty, and practical procurement conditions.
+
+\section*{14. Supplier Intelligence}
+
+Supplier intelligence connects procurement records with supplier-level performance information.
+
+Relevant evidence may include:
+
+\begin{itemize}[leftmargin=1cm]
+\item purchasing activity;
+\item supply reliability;
+\item delivery performance;
+\item procurement history;
+\item medicine availability; and
+\item risk indicators.
+\end{itemize}
+
+The objective is to support supplier evaluation and procurement strategy rather than merely maintain a supplier directory.
+
+\section*{15. Monte Carlo Risk Analysis}
+
+Monte Carlo analysis provides a mechanism for exploring uncertainty by repeatedly simulating possible outcomes.
+
+In Pharmacy V13, this approach can support questions such as:
+
+\begin{itemize}[leftmargin=1cm]
+\item How sensitive is stock availability to demand variation?
+\item How much safety stock may be required under uncertainty?
+\item What is the probability of a stock-out?
+\item How robust is a replenishment decision?
+\end{itemize}
+
+Simulation outputs are evidence about possible outcomes, not predictions of certainty.
+
+\section*{16. AI Management Interpretation}
+
+AI is positioned above the analytical evidence rather than replacing the underlying models.
+
+The intended chain is:
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=0.55cm,
+flow/.style={
+rounded corners,
+draw=slate,
+very thick,
+fill=slate!6,
+minimum width=3cm,
+minimum height=0.9cm,
+align=center,
+font=\small\bfseries
+},
+a/.style={-{Latex[length=2.5mm]},thick,slate}
+]
+
+\node[flow] (data) {Operational /\\Analytical Data};
+\node[flow,right=of data] (model) {REEM V2\\Models};
+\node[flow,right=of model] (evidence) {Evidence};
+\node[flow,right=of evidence] (ai) {AI\\Interpretation};
+\node[flow,right=of ai] (management) {Management\\Decision};
+
+\draw[a] (data)--(model);
+\draw[a] (model)--(evidence);
+\draw[a] (evidence)--(ai);
+\draw[a] (ai)--(management);
+
+\end{tikzpicture}
+\end{center}
+
+This architecture improves transparency because management recommendations can be traced back to analytical evidence.
+
+\section*{17. Reporting and Reproducibility}
+
+The Report Center provides controlled documentation of the system and its analytical outputs.
+
+Reporting functions include:
+
+\begin{itemize}[leftmargin=1cm]
+\item Pharmacy V13 system documentation;
+\item REEM V2 analytical documentation;
+\item conceptual architecture documentation;
+\item management reports;
+\item SAS-oriented analytical outputs;
+\item system snapshots;
+\item system-health information; and
+\item reproducible source documents.
+\end{itemize}
+
+A report is therefore not simply a printout.
+
+\begin{keybox}
+\textbf{A report is a controlled representation of what the system knows at a particular point in time.}
+\end{keybox}
+
+The LaTeX source provides a reproducible documentation layer for the principal system report.
+
+\section*{18. Security, Audit and Data Integrity}
+
+Pharmacy V13 treats security and data integrity as architectural requirements.
+
+The security architecture includes:
+
+\begin{itemize}[leftmargin=1cm]
+\item authenticated access;
+\item role-based authorization;
+\item protected operational APIs;
+\item secure password hashing;
+\item signed session tokens;
+\item login-attempt recording;
+\item application audit records;
+\item controlled write operations; and
+\item public health monitoring separated from protected business APIs.
+\end{itemize}
+
+Data integrity also requires a clear distinction between:
+
+\begin{enumerate}[leftmargin=1cm]
+\item live operational data;
+\item analytical transformations;
+\item simulated development datasets;
+\item model outputs; and
+\item AI interpretations.
+\end{enumerate}
+
+\begin{goldbox}
+\textbf{No simulated REEM V2 development result should be represented as live pharmacy evidence.}
+\end{goldbox}
+
+\section*{19. Testing and Verification}
+
+The Pharmacy V13 functional verification suite currently reports:
+
+\begin{center}
+\begin{tikzpicture}
+\node[
+rounded corners,
+draw=steel,
+very thick,
+fill=steel!7,
+minimum width=7cm,
+minimum height=1.4cm,
+align=center,
+font=\Large\bfseries
+] {45 PASS \qquad 0 FAIL};
+\end{tikzpicture}
+\end{center}
+
+The test suite provides a controlled baseline for subsequent development.
+
+Testing is treated as part of the engineering architecture rather than an activity performed only before release.
+
+\begin{notebox}
+\textbf{Engineering principle:}
+A change is not considered complete merely because the application appears to work. The existing verification baseline must remain intact.
+\end{notebox}
+
+\section*{20. Current Production Status}
+
+The current Pharmacy V13 production environment is deployed at:
+
+\begin{center}
+\url{https://pharmacy-v13.vercel.app/}
+\end{center}
+
+The production health service confirms:
+
+\begin{itemize}[leftmargin=1cm]
+\item service status: healthy;
+\item production API: operational;
+\item Neon PostgreSQL connection: active;
+\item database: \texttt{neondb};
+\item medicines: 120;
+\item sales: 7;
+\item suppliers: 2;
+\item purchases: 3.
+\end{itemize}
+
+The production application therefore represents a functioning cloud management platform rather than a purely local prototype.
+
+\section*{21. Management Decision Cycle}
+
+The complete management cycle can be represented as:
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=0.55cm,
+step/.style={
+rounded corners,
+draw=maroon,
+thick,
+fill=maroon!5,
+minimum width=2.5cm,
+minimum height=0.85cm,
+align=center,
+font=\small\bfseries
+},
+a/.style={-{Latex[length=2.5mm]},thick,maroon}
+]
+
+\node[step] (observe) {Observe};
+\node[step,right=of observe] (record) {Record};
+\node[step,right=of record] (analyze) {Analyze};
+\node[step,right=of analyze] (decide) {Decide};
+\node[step,right=of decide] (act) {Act};
+\node[step,right=of act] (review) {Review};
+
+\draw[a] (observe)--(record);
+\draw[a] (record)--(analyze);
+\draw[a] (analyze)--(decide);
+\draw[a] (decide)--(act);
+\draw[a] (act)--(review);
+\draw[a] (review.south) to[out=-90,in=-90] (observe.south);
+
+\end{tikzpicture}
+\end{center}
+
+This cycle is the conceptual core of Pharmacy V13.
+
+The system observes operational reality, records it, analyzes evidence, supports management decisions, records action, and uses subsequent information for review and improvement.
+
+\section*{22. One Integrated Pharmacy Scenario}
+
+Consider a medicine approaching its replenishment threshold.
+
+\begin{enumerate}[leftmargin=1cm]
+\item A purchase is received from a supplier.
+\item The purchase is recorded.
+\item Inventory is updated.
+\item The Control Center reflects the new operational state.
+\item Sales subsequently reduce available stock.
+\item Demand evidence is updated.
+\item REEM V2 evaluates demand, coverage, reorder point, safety stock, expiry, and related risk.
+\item The analytical layer produces evidence.
+\item AI interprets the evidence for management.
+\item Management decides whether and how to replenish.
+\item The resulting action becomes a new operational event.
+\item Reporting and snapshots preserve the relevant state for review.
+\end{enumerate}
+
+Thus the system closes the loop between operations and decision-making.
+
+\section*{23. Live Data versus Development Intelligence}
+
+This distinction is essential to the scientific integrity of Pharmacy V13.
+
+\begin{center}
+\begin{tabularx}{0.92\textwidth}{lXX}
+\toprule
+\textbf{Layer} & \textbf{Purpose} & \textbf{Status}\\
+\midrule
+Operational PostgreSQL & Real system transactions & \live\\
+Authentication and audit & Access and accountability & \live\\
+Production APIs & Operational services & \live\\
+Control Center & Management interface & \live\\
+REEM V2 datasets & Model development and validation & \simulated\\
+REEM V2 models & Decision-intelligence architecture & Development / analytical\\
+AI interpretation & Evidence interpretation & Development / analytical\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The distinction allows the analytical architecture to evolve without falsely claiming that simulated development evidence represents live pharmacy activity.
+
+\section*{24. Engineering Philosophy}
+
+Pharmacy V13 follows a deliberately modular architecture.
+
+The system should evolve through controlled increments rather than uncontrolled rewrites.
+
+The principal engineering principles are:
+
+\begin{itemize}[leftmargin=1cm]
+\item preserve working functionality;
+\item make the smallest necessary change;
+\item protect operational data;
+\item preserve authentication boundaries;
+\item maintain test coverage;
+\item separate operational truth from analytical simulation;
+\item keep evidence traceable;
+\item document important changes;
+\item maintain reproducibility; and
+\item deploy only verified functionality.
+\end{itemize}
+
+\section*{25. Strategic View}
+
+Pharmacy V13 can be understood as a small-scale example of a broader digital health and biomedical information architecture.
+
+Its important contribution is not the individual inventory screen or the individual analytical model.
+
+Its value lies in connecting:
+
+\begin{center}
+\textbf{Data}
+$\rightarrow$
+\textbf{Information}
+$\rightarrow$
+\textbf{Evidence}
+$\rightarrow$
+\textbf{Decision}
+$\rightarrow$
+\textbf{Action}
+$\rightarrow$
+\textbf{Learning}
+\end{center}
+
+This architecture can support future extensions in supply-chain intelligence, pharmacological information management, biomedical analytics, forecasting, quality assurance, and AI-assisted decision support.
+
+\section*{Conclusion}
+
+Pharmacy V13 is a unified management, analytical, and engineering platform.
+
+Its architecture connects daily operational transactions with cloud infrastructure, authentication, PostgreSQL data, decision intelligence, AI interpretation, management action, reporting, and feedback.
+
+The fundamental principle is:
+
+\begin{keybox}
+\textbf{Operations create data.}\\
+\textbf{The system organizes the data.}\\
+\textbf{REEM V2 creates analytical evidence.}\\
+\textbf{AI interprets the evidence.}\\
+\textbf{Management makes decisions.}\\
+\textbf{Actions create new operational data.}\\
+\textbf{Reporting preserves and communicates the result.}
+\end{keybox}
+
+This closes the management loop and establishes Pharmacy V13 as a practical digital decision-support architecture rather than merely an inventory application.
+
+\vfill
+
+\begin{center}
+\textcolor{maroon}{\rule{0.75\textwidth}{0.6pt}}\\[4pt]
+\textbf{Pharmacy V13}\\
+System Architecture, Management and Decision Intelligence\\
+September 2026
+\end{center}
+
+\end{document}
+
