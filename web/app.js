@@ -1408,8 +1408,7 @@ async function sellMedicine(name) {
             "pharmacy_v13_user",
             JSON.stringify(result.user)
           );
-window.location.href = "/professional.html";
-
+window.location.reload();
         } catch (err) {
           error.textContent = err.message || "Login failed";
         }
