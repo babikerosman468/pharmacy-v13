@@ -1,11 +1,45 @@
-async function api(url, options) {
+function getAuthToken() {
+  return localStorage.getItem("pharmacy_v13_token") || "";
+}
 
-  const r = await fetch(url, options);
+function logout() {
+  localStorage.removeItem("pharmacy_v13_token");
+  localStorage.removeItem("pharmacy_v13_user");
+  window.location.reload();
+}
+
+async function api(url, options = {}) {
+
+  const token = getAuthToken();
+
+  const headers = {
+    ...(options.headers || {})
+  };
+
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  const r = await fetch(url, {
+    ...options,
+    headers
+  });
+
+  if (r.status === 401) {
+    logout();
+    throw new Error("Authentication required");
+  }
 
   if (!r.ok)
     throw new Error(await r.text());
 
   return r.json();
+}
+
+async function snapshot() {
+  const data = await api("/api/intelligence?mode=snapshot");
+  const box = document.getElementById("snapshotContent");
+  if (box) box.textContent = JSON.stringify(data, null, 2);
 }
 
 function esc(x) {
@@ -62,8 +96,35 @@ function showPage(id) {
 
 async function loadDashboard() {
 
-  const d =
-    await api("/api/summary");
+  const medicines = await api("/api/medicines");
+  const sales = await api("/api/sales");
+  const alerts = await api("/api/alerts");
+
+  const calculatedInventoryValue =
+    medicines.reduce(
+      (sum, m) =>
+        sum +
+        (Number(m.quantity) || 0) *
+        (Number(m.price) || 0),
+      0
+    );
+
+  const calculatedRevenue =
+    sales.reduce(
+      (sum, s) =>
+        sum + (Number(s.total) || 0),
+      0
+    );
+
+  const d = {
+    medicines: medicines.length,
+    sales: sales.length,
+    revenue: calculatedRevenue,
+    inventoryValue: calculatedInventoryValue,
+    lowStock: Number(alerts.lowStock || 0),
+    expired: Number(alerts.expired || 0),
+    expiringSoon: Number(alerts.expiringSoon || 0)
+  };
 
   medCount.textContent =
     d.medicines;
@@ -72,10 +133,10 @@ async function loadDashboard() {
     d.sales;
 
   revenue.textContent =
-    d.revenue;
+    d.revenue.toLocaleString();
 
   inventoryValue.textContent =
-    d.inventoryValue;
+    d.inventoryValue.toLocaleString();
 
   lowStock.textContent =
     d.lowStock;
@@ -97,7 +158,7 @@ async function loadDashboard() {
 
   if (inventoryStatus) {
     inventoryStatus.textContent =
-      `${d.medicines} medicines • ${Number(d.inventoryValue || 0).toLocaleString()} value`;
+      `${d.medicines} medicines • ${d.inventoryValue.toLocaleString()} value`;
   }
 
   if (stockStatus) {
@@ -109,15 +170,15 @@ async function loadDashboard() {
 
   if (expiryStatus) {
     const totalExpiry =
-      Number(d.expired || 0) +
-      Number(d.expiringSoon || 0);
+      d.expired + d.expiringSoon;
 
     expiryStatus.textContent =
       totalExpiry > 0
-        ? `⚠ ${totalExpiry} expiry alert(s)`
-        : "✓ No expiry alerts";
+        ? `⚠ ${totalExpiry} expiry item(s) require attention`
+        : "✓ Expiry status normal";
   }
 }
+
 
 async function loadMedicines() {
 
@@ -314,12 +375,9 @@ async function inventoryStockIn() {
   );
 
   await loadInventory();
-  await loadDashboard();
 }
 
-
 async function inventoryStockOut() {
-
   const meds =
     await api("/api/medicines");
 
@@ -683,14 +741,12 @@ async function loadCash() {
   <div class="card">
 
     <h3>Date</h3>
-    <strong>${d.date}</strong>
-
+<strong>${new Date().toLocaleDateString()}</strong>
     <h3>Sales</h3>
-    <strong>${d.sales}</strong>
+<strong>${d.salesCount}</strong>
 
     <h3>Revenue</h3>
-    <strong>${d.revenue}</strong>
-
+<strong>${d.cashTotal}</strong>
   </div>`;
 }
 
@@ -761,241 +817,305 @@ async function loadIntelligence() {
     const [
       summary,
       drugs,
-      suppliers,
       readiness,
       unmatched
     ] = await Promise.all([
 
-      api("/api/intelligence/summary"),
-      api("/api/intelligence/drugs"),
-      api("/api/intelligence/suppliers"),
-      api("/api/intelligence/readiness"),
-      api("/api/intelligence/unmatched")
+      api("/api/intelligence?mode=summary"),
+      api("/api/intelligence?mode=drugs"),
+      api("/api/intelligence?mode=readiness"),
+      api("/api/intelligence?mode=unmatched")
 
     ]);
-document.getElementById("reemObservationDays").textContent =
-  summary.SalesObservationDays ?? "—";
-
-document.getElementById("reemMatchedSoldUnits").textContent =
-  summary.SoldUnits ?? "—";
-
-document.getElementById("reemObservationStart").textContent =
-  summary.SalesObservationStart ?? "—";
-
-document.getElementById("reemObservationEnd").textContent =
-  summary.SalesObservationEnd ?? "—";
 
     const value = (x) =>
       Number(x || 0).toLocaleString();
 
+    const decisions =
+      drugs.decisions || [];
+
+    const priority =
+      summary.priorityCounts || {};
+
+    const signals =
+      summary.signalCounts || {};
+
+    const files =
+      readiness.files || {};
+
+    const readyFiles =
+      Object.values(files)
+        .filter(Boolean)
+        .length;
+
     box.innerHTML = `
 
-<div class="card">
+      <div class="card">
 
-  <h3>🧭 Management Interpretation</h3>
+        <h3>🤖 REEM V2 Decision Intelligence</h3>
 
-  <ul>
+        <p>
+          <strong>REEM calculates evidence → AI interprets evidence
+          → Management decides.</strong>
+        </p>
 
-    <li>
-      Inventory is currently large relative to observed sales.
-    </li>
+        <p>
+          Data Source:
+          <strong>${esc(summary.dataSource)}</strong>
+        </p>
 
-    <li>
-      Demand evidence is still limited to the current
-      observation window.
-    </li>
+        <p>
+          Data Status:
+          <strong>${esc(summary.dataStatus)}</strong>
+        </p>
 
-    <li>
-      No critical expiry items are currently identified.
-    </li>
+        <p>
+          Operational Use:
+          <strong>${esc(summary.operationalUse)}</strong>
+        </p>
 
-    <li>
-      No reorder review is currently triggered.
-    </li>
+        <p>
+          System Status:
+          <strong>${esc(summary.status)}</strong>
+        </p>
 
-    <li>
-      One sales transaction requires data-quality review.
-    </li>
-
-    <li>
-      Advanced inventory optimization requires additional
-      historical data and parameters.
-    </li>
-
-  </ul>
-
-</div>
+      </div>
 
       <div class="cards">
 
         <div class="card">
-          <span>💊 Medicines</span>
-          <strong>${value(summary.MedicineCount)}</strong>
+          <span>💊 REEM Medicines</span>
+          <strong>${value(summary.medicineCount)}</strong>
         </div>
 
         <div class="card">
-          <span>📦 Current Stock</span>
-          <strong>${value(summary.CurrentStockUnits)}</strong>
+          <span>🔴 HIGH Priority</span>
+          <strong>${value(priority.HIGH)}</strong>
         </div>
 
         <div class="card">
-          <span>💰 Inventory Value</span>
-          <strong>${value(summary.CurrentStockValue)}</strong>
+          <span>🟠 MEDIUM Priority</span>
+          <strong>${value(priority.MEDIUM)}</strong>
         </div>
 
         <div class="card">
-          <span>🛒 Purchased</span>
-          <strong>${value(summary.PurchasedUnits)}</strong>
+          <span>🟢 LOW Priority</span>
+          <strong>${value(priority.LOW)}</strong>
         </div>
 
         <div class="card">
-          <span>💵 Sales Revenue</span>
-          <strong>${value(summary.SalesRevenue)}</strong>
+          <span>🧠 Models Integrated</span>
+          <strong>${value(summary.modelsIntegrated)}</strong>
         </div>
 
-        <div class="card warning">
-          <span>🔎 Unmatched Sales</span>
-          <strong>${value(summary.UnmatchedSalesRecords)}</strong>
+        <div class="card">
+          <span>📁 Files Ready</span>
+          <strong>${readyFiles}</strong>
         </div>
 
       </div>
 
       <div class="card">
 
-        <h3>📅 Evidence Window</h3>
-
-        <p>
-          Sales observation:
-          <strong>
-            ${esc(summary.SalesObservationStart)}
-            →
-            ${esc(summary.SalesObservationEnd)}
-          </strong>
-        </p>
-
-        <p>
-          Observation period:
-          <strong>${value(summary.SalesObservationDays)} days</strong>
-        </p>
-
-        <p>
-          ⚠ Demand and ABC results are based on observed sales
-          and should be considered preliminary until mature
-          historical data are available.
-        </p>
-
-      </div>
-
-      <div class="card">
-
-        <h3>📊 Observed-Sales ABC</h3>
-
-        <div style="overflow-x:auto">
+        <h3>📊 Management Signals</h3>
 
         <table>
 
           <tr>
-            <th>Medicine</th>
-            <th>Sold</th>
-            <th>Revenue</th>
-            <th>ABC</th>
-            <th>Stock Days</th>
-            <th>Expiry</th>
+            <th>Signal</th>
+            <th>Count</th>
           </tr>
 
-          ${drugs
-            .filter(d => d.SoldQty !== "0.0")
-            .map(d => `
+          ${Object.entries(signals)
+            .map(([name, count]) => `
 
               <tr>
-
-                <td>${esc(d.DrugName)}</td>
-
-                <td>${esc(d.SoldQty)}</td>
-
-                <td>${esc(d.Revenue)}</td>
-
-                <td>
-                  <strong>${esc(d.ABC_Class)}</strong>
-                </td>
-
-                <td>${esc(d.StockDays)}</td>
-
-                <td>${esc(d.ExpiryStatus)}</td>
-
+                <td>${esc(name)}</td>
+                <td><strong>${value(count)}</strong></td>
               </tr>
 
             `).join("")}
 
         </table>
 
-        </div>
+      </div>
+
+      <div class="card">
+
+        <h3>🧭 AI Management Decisions</h3>
+
+        ${
+          decisions.length
+            ? `
+
+              <div style="overflow-x:auto">
+
+              <table>
+
+                <tr>
+                  <th>Drug</th>
+                  <th>Priority</th>
+                  <th>Primary Signal</th>
+                  <th>Evidence</th>
+                  <th>Recommended Action</th>
+                </tr>
+
+                ${decisions.map(d => {
+
+                  const e =
+                    d.Evidence || {};
+
+                  const interpretation =
+                    d.Interpretation || [];
+
+                  const actions =
+                    d.RecommendedAction || [];
+
+                  return `
+
+                    <tr>
+
+                      <td>
+                        <strong>
+                          ${esc(d.DrugID)}
+                        </strong>
+                      </td>
+
+                      <td>
+                        <strong>
+                          ${esc(d.Priority)}
+                        </strong>
+                      </td>
+
+                      <td>
+                        ${esc(d.PrimarySignal)}
+                      </td>
+
+                      <td>
+
+                        Forecast:
+                        ${esc(e.ForecastDailyDemand)}
+
+                        <br>
+
+                        Stock:
+                        ${esc(e.CurrentStock)}
+
+                        <br>
+
+                        Coverage:
+                        ${esc(e.CoverageDays)} days
+
+                        <br>
+
+                        ROP:
+                        ${esc(e.ReorderPoint)}
+
+                        <br>
+
+                        Expired:
+                        ${esc(e.ExpiredBatches)}
+
+                        <br>
+
+                        Critical expiry:
+                        ${esc(e.CriticalExpiryBatches)}
+
+                      </td>
+
+                      <td>
+
+                        ${
+                          actions.length
+                            ? actions
+                                .map(a =>
+                                  `<div>• ${esc(a)}</div>`
+                                )
+                                .join("")
+                            : "No immediate action."
+                        }
+
+                      </td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td colspan="5">
+
+                        <small>
+
+                          <strong>
+                            Interpretation:
+                          </strong>
+
+                          ${
+                            interpretation.length
+                              ? interpretation
+                                  .map(i =>
+                                    `<div>• ${esc(i)}</div>`
+                                  )
+                                  .join("")
+                              : "None"
+                          }
+
+                        </small>
+
+                      </td>
+
+                    </tr>
+
+                  `;
+
+                }).join("")}
+
+              </table>
+
+              </div>
+
+            `
+            : `<p>No AI decisions available.</p>`
+        }
+
+      </div>
+
+      <div class="card">
+
+        <h3>🧪 REEM V2 Readiness</h3>
 
         <p>
-          <small>
-            ABC method: Observed-Sales ABC — preliminary.
-          </small>
+          Status:
+          <strong>${esc(readiness.status)}</strong>
         </p>
 
-      </div>
-
-      <div class="card">
-
-        <h3>🚚 Supplier Intelligence</h3>
-
-        <table>
-
-          <tr>
-            <th>Supplier</th>
-            <th>Purchased Qty</th>
-            <th>Procurement Cost</th>
-          </tr>
-
-          ${suppliers.map(s => `
-
-            <tr>
-
-              <td>${esc(s.SupplierName)}</td>
-
-              <td>${esc(s.PurchasedQty)}</td>
-
-              <td>${esc(s.ProcurementCost)}</td>
-
-            </tr>
-
-          `).join("")}
-
-        </table>
-
-      </div>
-
-      <div class="card">
-
-        <h3>🧪 Model Readiness</h3>
+        <p>
+          Models Integrated:
+          <strong>${value(readiness.modelsIntegrated)}</strong>
+        </p>
 
         <table>
 
           <tr>
-            <th>Model</th>
+            <th>REEM Evidence File</th>
             <th>Status</th>
-            <th>Evidence / Requirement</th>
           </tr>
 
-          ${readiness.map(r => `
+          ${Object.entries(files)
+            .map(([file, ok]) => `
 
-            <tr>
+              <tr>
 
-              <td>${esc(r.Model)}</td>
+                <td>${esc(file)}</td>
 
-              <td>
-                <strong>${esc(r.Status)}</strong>
-              </td>
+                <td>
+                  <strong>
+                    ${ok ? "READY" : "MISSING"}
+                  </strong>
+                </td>
 
-              <td>${esc(r.Basis)}</td>
+              </tr>
 
-            </tr>
-
-          `).join("")}
+            `).join("")}
 
         </table>
 
@@ -1005,9 +1125,15 @@ document.getElementById("reemObservationEnd").textContent =
 
         <h3>🔎 Data Quality Review</h3>
 
+        <p>
+          Unmatched records:
+          <strong>${value(unmatched.count)}</strong>
+        </p>
+
         ${
-          unmatched.length
+          unmatched.count > 0
             ? `
+
               <table>
 
                 <tr>
@@ -1015,28 +1141,31 @@ document.getElementById("reemObservationEnd").textContent =
                   <th>Quantity</th>
                   <th>Revenue</th>
                   <th>Date</th>
+                  <th>Status</th>
                 </tr>
 
-                ${unmatched.map(u => `
+                ${(unmatched.unmatched || [])
+                  .map(u => `
 
-                  <tr>
+                    <tr>
 
-                    <td>${esc(u.Medicine)}</td>
-                    <td>${esc(u.Quantity)}</td>
-                    <td>${esc(u.Revenue)}</td>
-                    <td>${esc(u.Date)}</td>
+                      <td>${esc(u.medicine)}</td>
+                      <td>${esc(u.qty)}</td>
+                      <td>${esc(u.total)}</td>
+                      <td>${esc(u.date)}</td>
+                      <td>${esc(u.status)}</td>
 
-                  </tr>
+                    </tr>
 
-                `).join("")}
+                  `).join("")}
 
               </table>
+
             `
-            : `<p>✓ No unmatched sales records.</p>`
+            : `<p>✓ No unmatched records.</p>`
         }
 
         <p>
-          Unmatched transactions require data-quality review.
           No DrugID is inferred automatically.
         </p>
 
@@ -1060,8 +1189,7 @@ document.getElementById("reemObservationEnd").textContent =
   }
 }
 
-async function runModel(name) {
-
+window.runModel = async function(name) {
   showPage("model");
 
   modelTitle.textContent =
@@ -1078,13 +1206,12 @@ async function runModel(name) {
 
   try {
 
-    const d =
-      await api(
-        "/api/model/" + name
-      );
-
+const d =
+  await api(
+    "/api/intelligence?mode=" + name
+  );
     modelOutput.textContent =
-      d.output;
+      JSON.stringify(d, null, 2);
 
     modelSummary.innerHTML =
       "<div class='card'>" +
@@ -1192,24 +1319,108 @@ async function sellMedicine(name) {
   loadMedicines();
 }
 
-async function snapshot() {
+(async function () {
 
-  const r =
-    await fetch("/api/snapshot");
+  const token = getAuthToken();
 
-  const text =
-    await r.text();
+  if (!token) {
 
-  const box =
-    document.getElementById("snapshotContent");
+    document.body.innerHTML = `
+      <div style="
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#0b1220;
+        color:#eef4ff;
+        font-family:system-ui,sans-serif;
+        padding:20px;
+      ">
+        <form id="loginForm" style="
+          width:min(420px,100%);
+          background:#111a2b;
+          border:1px solid #263650;
+          border-radius:18px;
+          padding:32px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35);
+        ">
+          <h1>💊 PHARMACY V13</h1>
+          <p style="color:#91a0b8">Secure Management Login</p>
 
-  if (box) {
-    box.textContent = text;
+          <label>Username</label>
+          <input id="loginUsername" autocomplete="username" required
+            style="width:100%;margin:8px 0 18px;padding:12px">
+
+          <label>Password</label>
+          <input id="loginPassword" type="password"
+            autocomplete="current-password" required
+            style="width:100%;margin:8px 0 18px;padding:12px">
+
+          <button type="submit"
+            style="width:100%;padding:13px;border:0;border-radius:9px;
+                   background:#1769aa;color:white;font-weight:700">
+            Sign in
+          </button>
+
+          <div id="loginError"
+            style="margin-top:15px;color:#ff6262"></div>
+        </form>
+      </div>
+    `;
+
+    document.getElementById("loginForm")
+      .addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const error = document.getElementById("loginError");
+        error.textContent = "Signing in...";
+
+        try {
+
+          const response = await fetch(
+            "/api/auth/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                username:
+                  document.getElementById("loginUsername").value,
+                password:
+                  document.getElementById("loginPassword").value
+              })
+            }
+          );
+
+          const result = await response.json();
+
+          if (!response.ok)
+            throw new Error(result.error || "Login failed");
+
+          localStorage.setItem(
+            "pharmacy_v13_token",
+            result.token
+          );
+
+          localStorage.setItem(
+            "pharmacy_v13_user",
+            JSON.stringify(result.user)
+          );
+window.location.href = "/professional.html";
+
+        } catch (err) {
+          error.textContent = err.message || "Login failed";
+        }
+      });
+
+    return;
   }
 
-}
-loadDashboard();
+  loadDashboard();
 
+})();
 
 async function compilePharmacyReport() {
     const box = document.getElementById("reportCompileStatus");
@@ -1234,7 +1445,7 @@ async function compilePharmacyReport() {
         if (result.ok) {
             setTimeout(() => {
                 window.open(
-                    "/reports/file?name=pharmacy_report.pdf",
+                    "/api/reports/file?name=pharmacy_report.pdf",
                     "_blank"
                 );
             }, 500);
