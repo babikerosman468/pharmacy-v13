@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pharmacy V13 — Professional Management</title>
+
+<style>
+:root{
+  --bg:#0b1220;
+  --panel:#111a2b;
+  --panel2:#162238;
+  --line:#263650;
+  --text:#eef4ff;
+  --muted:#91a0b8;
+  --blue:#4da3ff;
+  --green:#38d996;
+  --amber:#f5b942;
+  --red:#ff6262;
+  --purple:#9b8cff;
+  --shadow:0 18px 50px rgba(0,0,0,.25);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at top right,rgba(77,163,255,.12),transparent 30%),
+    linear-gradient(180deg,#09111f,#0b1220 55%,#0a101c);
+  color:var(--text);
+  min-height:100vh;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+.container{
+  width:min(1400px,94%);
+  margin:auto;
+}
+
+header{
+  padding:28px 0 18px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  width:54px;
+  height:54px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  background:linear-gradient(135deg,#1769aa,#3b82f6);
+  box-shadow:0 10px 30px rgba(59,130,246,.25);
+}
+
+.brand h1{
+  margin:0;
+  font-size:25px;
+  letter-spacing:.3px;
+}
+
+.brand p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 15px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn:hover{
+  border-color:var(--blue);
+  transform:translateY(-1px);
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#1769aa,#2563eb);
+  border-color:#3182ce;
+}
+
+.statusbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.status{
+  border:1px solid var(--line);
+  background:rgba(17,26,43,.8);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.status.online{
+  color:var(--green);
+  border-color:rgba(56,217,150,.25);
+}
+
+.hero{
+  margin:16px 0 25px;
+  padding:30px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:
+    linear-gradient(135deg,rgba(22,34,56,.96),rgba(13,23,39,.96));
+  box-shadow:var(--shadow);
+}
+
+.hero h2{
+  margin:0;
+  font-size:clamp(25px,4vw,40px);
+  line-height:1.15;
+}
+
+.hero p{
+  max-width:850px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:13px 0 0;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.kpi{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  min-height:125px;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+}
+
+.kpi-value{
+  font-size:30px;
+  font-weight:700;
+  margin-top:13px;
+}
+
+.kpi-note{
+  margin-top:7px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.kpi.blue .kpi-value{color:var(--blue)}
+.kpi.green .kpi-value{color:var(--green)}
+.kpi.amber .kpi-value{color:var(--amber)}
+.kpi.red .kpi-value{color:var(--red)}
+.kpi.purple .kpi-value{color:var(--purple)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.card-title{
+  font-size:17px;
+  font-weight:700;
+}
+
+.card-icon{
+  font-size:22px;
+}
+
+.metric-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid rgba(38,54,80,.65);
+}
+
+.metric-row:last-child{
+  border-bottom:0;
+}
+
+.metric-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.metric-value{
+  font-weight:700;
+}
+
+.good{
+  color:var(--green);
+}
+
+.warn{
+  color:var(--amber);
+}
+
+.danger{
+  color:var(--red);
+}
+
+.info{
+  color:var(--blue);
+}
+
+.interpretation{
+  line-height:1.9;
+  color:#cbd7e9;
+  font-size:14px;
+white-space:pre-line;
+}
+
+.attention{
+  grid-column:span 2;
+}
+
+.attention-list{
+  display:grid;
+  gap:11px;
+}
+
+.attention-item{
+  padding:14px;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:rgba(22,34,56,.55);
+}
+
+.attention-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.attention-item span{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.quick{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+
+.quick a{
+  padding:14px;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--panel2);
+  color:#d9e5f7;
+  font-size:13px;
+  transition:.2s;
+}
+
+.quick a:hover{
+  border-color:var(--blue);
+  transform:translateY(-2px);
+}
+
+.intelligence-note{
+  margin-top:16px;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid rgba(245,185,66,.25);
+  background:rgba(245,185,66,.06);
+  color:#d9c28d;
+  font-size:12px;
+  line-height:1.55;
+}
+
+footer{
+  margin:30px 0;
+  padding:20px 0;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.loading{
+  opacity:.55;
+}
+
+.error{
+  color:var(--red);
+}
+
+@media(max-width:1050px){
+  .kpis{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .attention{
+    grid-column:span 2;
+  }
+
+  .quick{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:700px){
+  .container{
+    width:92%;
+  }
+
+  header{
+    padding-top:18px;
+  }
+
+  .hero{
+    padding:22px;
+  }
+
+  .kpis{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .attention{
+    grid-column:span 1;
+  }
+
+  .quick{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .brand h1{
+    font-size:20px;
+  }
+
+  .kpi-value{
+    font-size:25px;
+  }
+}
+
+@media(max-width:430px){
+  .kpis{
+    grid-template-columns:1fr;
+  }
+
+  .quick{
+    grid-template-columns:1fr;
+  }
+
+  .actions{
+    width:100%;
+  }
+
+  .actions .btn{
+    flex:1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <div class="topbar">
+
+    <div class="brand">
+      <div class="logo">💊</div>
+      <div>
+        <h1>PHARMACY V13</h1>
+        <p>Professional Management Interface</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="loadData()">↻ Refresh Data</button>
+      <a class="btn primary" href="/">🔬 Expert / Scientific View</a>
+    </div>
+
+  </div>
+
+  <div class="statusbar">
+    <div class="status online" id="systemStatus">● SYSTEM ONLINE</div>
+    <div class="status" id="databaseStatus">Database: checking...</div>
+    <div class="status">Operational Management Layer</div>
+  </div>
+</header>
+
+<section class="hero">
+
+  <h2>Pharmacy Management at a Glance</h2>
+
+  <p>
+    A professional interpretation layer over Pharmacy V13.
+    It presents operational performance, current risks, and decision-support
+    intelligence without replacing the detailed scientific interface.
+  </p>
+
+</section>
+
+<section class="kpis">
+
+  <div class="kpi blue">
+    <div class="kpi-label">Medicines</div>
+    <div class="kpi-value" id="medicines">—</div>
+    <div class="kpi-note">Registered medicines</div>
+  </div>
+
+  <div class="kpi green">
+    <div class="kpi-label">Sales</div>
+    <div class="kpi-value" id="sales">—</div>
+    <div class="kpi-note">Recorded transactions</div>
+  </div>
+
+  <div class="kpi purple">
+    <div class="kpi-label">Revenue</div>
+    <div class="kpi-value" id="revenue">—</div>
+    <div class="kpi-note">Recorded sales value</div>
+  </div>
+
+  <div class="kpi blue">
+    <div class="kpi-label">Inventory Value</div>
+    <div class="kpi-value" id="inventoryValue">—</div>
+    <div class="kpi-note">Current stock value</div>
+  </div>
+
+  <div class="kpi" id="alertCard">
+    <div class="kpi-label">Alerts</div>
+    <div class="kpi-value" id="alerts">—</div>
+    <div class="kpi-note">Items requiring attention</div>
+  </div>
+
+</section>
+
+<section class="grid">
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="card-title">📦 Operations</div>
+      <div class="card-icon">⚙️</div>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Medicines</span>
+      <span class="metric-value" id="opMedicines">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Sales activity</span>
+      <span class="metric-value" id="opSales">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Revenue</span>
+      <span class="metric-value" id="opRevenue">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Inventory value</span>
+      <span class="metric-value" id="opInventory">—</span>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="card-title">⚠ Risk & Attention</div>
+      <div class="card-icon">🛡️</div>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Low stock</span>
+      <span class="metric-value" id="lowStock">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Expired</span>
+      <span class="metric-value" id="expired">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Expiring soon</span>
+      <span class="metric-value" id="expiringSoon">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Overall status</span>
+      <span class="metric-value" id="riskStatus">Checking...</span>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="card-title">🤖 Intelligence</div>
+      <div class="card-icon">🧠</div>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Decision layer</span>
+      <span class="metric-value info">REEM V2</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Models integrated</span>
+      <span class="metric-value" id="models">—</span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">Intelligence status</span>
+      <span class="metric-value good">READY</span>
+    </div>
+
+    <div class="intelligence-note">
+      REEM V2 intelligence currently uses simulated development data.
+      It is presented for analytical development and must not be treated
+      as live operational evidence.
+    </div>
+
+  </div>
+
+  <div class="card attention">
+
+    <div class="card-header">
+      <div class="card-title">🎯 What Deserves Attention?</div>
+      <div class="card-icon">📌</div>
+    </div>
+
+    <div class="attention-list" id="attentionList">
+
+      <div class="attention-item">
+        <strong>Loading management interpretation...</strong>
+        <span>Please wait while current operational data is retrieved.</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="card-title">📊 Management Interpretation</div>
+      <div class="card-icon">💡</div>
+    </div>
+
+    <div class="interpretation" id="managementText">
+      Loading current management interpretation...
+    </div>
+
+  </div>
+
+</section>
+
+<section class="card">
+
+  <div class="card-header">
+    <div class="card-title">⚡ Quick Access</div>
+    <div class="card-icon">🚀</div>
+  </div>
+
+  <div class="quick">
+
+    <a href="/">🏠 Control Center</a>
+    <a href="/?section=medicines">💊 Medicines</a>
+    <a href="/?section=sales">💰 Sales</a>
+    <a href="/?section=inventory">📦 Inventory</a>
+    <a href="/?section=alerts">⚠ Alerts</a>
+
+  </div>
+
+</section>
+
+<footer>
+  <div>Pharmacy V13 — Professional Management</div>
+  <div id="lastUpdated">Not yet refreshed</div>
+</footer>
+
+</div>
+
+<script>
+
+function getAuthToken(){
+  return localStorage.getItem("pharmacy_v13_token") || "";
+}
+
+function logout(){
+  localStorage.removeItem("pharmacy_v13_token");
+  localStorage.removeItem("pharmacy_v13_user");
+  window.location.href = "/";
+}
+
+async function api(url){
+
+  const token = getAuthToken();
+
+  const response = await fetch(url,{
+    headers: token
+      ? {
+          Authorization:
+            "Bearer " + token
+        }
+      : {}
+  });
+
+  if(response.status === 401){
+    logout();
+    throw new Error("Authentication required");
+  }
+
+  if(!response.ok){
+    throw new Error(await response.text());
+  }
+
+  return response.json();
+}
+
+function number(value){
+
+  const n = Number(value);
+
+  if(!Number.isFinite(n)){
+    return 0;
+  }
+
+  return n;
+}
+
+function money(value){
+
+  return number(value).toLocaleString(undefined,{
+    minimumFractionDigits:1,
+    maximumFractionDigits:1
+  });
+}
+
+function integer(value){
+
+  return Math.round(number(value)).toLocaleString();
+}
+
+function setText(id,value){
+
+  const element = document.getElementById(id);
+
+  if(element){
+    element.textContent = value;
+  }
+}
+
+function setStatusClass(id,className){
+
+  const element = document.getElementById(id);
+
+  if(!element){
+    return;
+  }
+
+  element.classList.remove("good","warn","danger","info");
+
+  if(className){
+    element.classList.add(className);
+  }
+}
+
+function buildAttention(data){
+
+  const list = document.getElementById("attentionList");
+
+  const items = [];
+
+  const lowStock = number(data.lowStock);
+  const expired = number(data.expired);
+  const expiringSoon = number(data.expiringSoon);
+
+  if(lowStock > 0){
+
+    items.push({
+      title:"Low-stock medicines require attention",
+      text:`${integer(lowStock)} medicine items are currently below the operational stock threshold.`
+    });
+
+  }
+
+  if(expired > 0){
+
+    items.push({
+      title:"Expired stock requires review",
+      text:`${integer(expired)} medicine items have expired stock signals and should be reviewed.`
+    });
+
+  }
+
+  if(expiringSoon > 0){
+
+    items.push({
+      title:"Expiry monitoring is required",
+      text:`${integer(expiringSoon)} medicine items are approaching expiry.`
+    });
+
+  }
+
+  if(items.length === 0){
+
+    items.push({
+      title:"No immediate operational alerts",
+      text:"Current stock and expiry indicators show no immediate operational exception requiring management intervention."
+    });
+
+    items.push({
+      title:"Continue routine monitoring",
+      text:"Maintain normal procurement, stock monitoring, sales recording, and expiry surveillance."
+    });
+
+  }
+
+  list.innerHTML = items.map(item => `
+    <div class="attention-item">
+      <strong>${item.title}</strong>
+      <span>${item.text}</span>
+    </div>
+  `).join("");
+
+}
+
+function buildInterpretation(data){
+
+  const lowStock = number(data.lowStock);
+  const expired = number(data.expired);
+  const expiringSoon = number(data.expiringSoon);
+
+  const revenue = number(data.revenue);
+  const inventoryValue = number(data.inventoryValue);
+  const sales = number(data.sales);
+
+  const paragraphs = [];
+
+  if(lowStock === 0 && expired === 0 && expiringSoon === 0){
+
+    paragraphs.push(
+      "The current operational picture is stable. No immediate low-stock or expiry exceptions are being reported."
+    );
+
+  }else{
+
+    paragraphs.push(
+      "The current operational picture contains exceptions that deserve management review."
+    );
+
+  }
+
+  if(sales > 0){
+
+    paragraphs.push(
+      `Recorded sales activity currently stands at ${integer(sales)} transactions with recorded revenue of ${money(revenue)}.`
+    );
+
+  }else{
+
+    paragraphs.push(
+      "No recorded sales activity is currently visible in the operational database."
+    );
+
+  }
+
+  if(inventoryValue > 0){
+
+    paragraphs.push(
+      `The current medicine inventory represents an operational stock value of ${money(inventoryValue)}.`
+    );
+
+  }
+
+  paragraphs.push(
+    "REEM V2 provides an additional analytical decision layer. Its current intelligence dataset is development simulation data and should be interpreted separately from live operational evidence."
+  );
+
+return paragraphs.join("\n\n");
+}
+
+async function loadData(){
+
+  document.body.classList.add("loading");
+
+  try{
+
+    const [
+      health,
+      medicines,
+      sales,
+      alerts,
+      intelligence
+    ] = await Promise.all([
+
+      api("/api/health"),
+      api("/api/medicines"),
+      api("/api/sales"),
+      api("/api/alerts"),
+      api("/api/intelligence?mode=summary")
+
+    ]);
+
+    const medicineList =
+      Array.isArray(medicines)
+      ? medicines
+      : [];
+
+    const salesList =
+      Array.isArray(sales)
+      ? sales
+      : [];
+
+    const lowStock =
+      number(alerts.lowStock);
+
+    const expired =
+      number(alerts.expired);
+
+    const expiringSoon =
+      number(alerts.expiringSoon);
+
+    const totalAlerts =
+      lowStock + expired + expiringSoon;
+
+    const inventoryValue =
+      medicineList.reduce(
+        (sum,medicine) =>
+          sum +
+          number(medicine.quantity) *
+          number(medicine.price),
+        0
+      );
+
+    const revenue =
+      salesList.reduce(
+        (sum,sale) =>
+          sum + number(sale.total),
+        0
+      );
+
+    setText("medicines",integer(medicineList.length));
+    setText("sales",integer(salesList.length));
+    setText("revenue",money(revenue));
+    setText("inventoryValue",money(inventoryValue));
+    setText("alerts",integer(totalAlerts));
+
+    setText("opMedicines",integer(medicineList.length));
+    setText("opSales",integer(salesList.length));
+    setText("opRevenue",money(revenue));
+    setText("opInventory",money(inventoryValue));
+
+    setText("lowStock",integer(lowStock));
+    setText("expired",integer(expired));
+    setText("expiringSoon",integer(expiringSoon));
+
+    const riskStatus =
+      document.getElementById("riskStatus");
+
+    if(totalAlerts === 0){
+
+      riskStatus.textContent = "Normal";
+      setStatusClass("riskStatus","good");
+
+    }else{
+
+      riskStatus.textContent = "Attention";
+      setStatusClass("riskStatus","warn");
+
+    }
+
+    if(totalAlerts === 0){
+
+      setStatusClass("alertCard","green");
+
+    }
+
+    const models =
+      intelligence &&
+      intelligence.modelsIntegrated
+      ? intelligence.modelsIntegrated
+      : 8;
+
+    setText("models",integer(models));
+
+if(
+  health &&
+  health.database
+){
+
+  if(
+    typeof health.database === "string"
+  ){
+
+    setText(
+      "databaseStatus",
+      "Database: " + health.database + " ✓"
+    );
+
+  }else if(
+    health.database.connected
+  ){
+
+    setText(
+      "databaseStatus",
+      "Database: Neon PostgreSQL ✓"
+    );
+
+  }else{
+
+    setText(
+      "databaseStatus",
+      "Database: unavailable"
+    );
+
+  }
+
+}else{
+
+  setText(
+    "databaseStatus",
+    "Database: unavailable"
+  );
+
+}
+
+    buildAttention({
+      lowStock,
+      expired,
+      expiringSoon
+    });
+
+    setText(
+      "managementText",
+      buildInterpretation({
+        lowStock,
+        expired,
+        expiringSoon,
+        revenue,
+        inventoryValue,
+        sales:salesList.length
+      })
+    );
+
+    setText(
+      "lastUpdated",
+      "Last updated: " +
+      new Date().toLocaleString()
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    setText(
+      "systemStatus",
+      "● DATA ERROR"
+    );
+
+    setStatusClass(
+      "systemStatus",
+      "danger"
+    );
+
+    setText(
+      "databaseStatus",
+      "Database/API check failed"
+    );
+
+    setText(
+      "managementText",
+      "The professional management layer could not retrieve the current operational data. Please verify the Pharmacy V13 server and API status."
+    );
+
+  }finally{
+
+    document.body.classList.remove("loading");
+
+  }
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
