@@ -8,6 +8,10 @@
     {
       "src": "web/index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "web/app.js",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
