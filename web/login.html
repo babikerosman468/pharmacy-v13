@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pharmacy V13 Secure Login</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0b1220;
+  color:#eef4ff;
+  font-family:system-ui,sans-serif;
+  padding:20px
+}
+.login{
+  width:min(420px,100%);
+  background:#111a2b;
+  border:1px solid #263650;
+  border-radius:18px;
+  padding:32px;
+  box-shadow:0 18px 50px rgba(0,0,0,.35)
+}
+h1{margin-top:0}
+.subtitle{color:#91a0b8}
+label{display:block;margin-top:18px}
+input{
+  width:100%;
+  margin-top:8px;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #34445f;
+  background:#0b1220;
+  color:white
+}
+button{
+  width:100%;
+  margin-top:24px;
+  padding:13px;
+  border:0;
+  border-radius:9px;
+  background:#1769aa;
+  color:white;
+  font-weight:700;
+  cursor:pointer
+}
+#error{margin-top:15px;color:#ff6262}
+</style>
+</head>
+
+<body>
+
+<form class="login" id="loginForm" autocomplete="on">
+  <h1>💊 PHARMACY V13</h1>
+  <p class="subtitle">Secure Management Login</p>
+
+  <label>Username</label>
+  <input id="username" autocomplete="username" required>
+
+  <label>Password</label>
+  <input id="password" type="password"
+         autocomplete="current-password" required>
+
+  <button type="submit">Sign in</button>
+
+  <div id="error"></div>
+</form>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const error = document.getElementById("error");
+  error.textContent = "Signing in...";
+
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Login failed");
+    }
+
+    localStorage.setItem("pharmacy_v13_token", result.token);
+    localStorage.setItem("pharmacy_v13_user", JSON.stringify(result.user));
+
+    window.location.href = "/professional.dashboard";
+
+  } catch (err) {
+    error.textContent = err.message || "Login failed";
+  }
+});
+</script>
+
+
+<p style="text-align:center;margin-top:18px;">
+  New visitor?
+  <a href="/contact.html">Contact</a>
+</p>
+
+</body>
+</html>
