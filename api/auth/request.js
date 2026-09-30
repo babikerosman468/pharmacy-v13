@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
         .toLowerCase();
 
     const requestedRole =
-      String(body.role || "viewer")
+      String(body.requested_role || "viewer")
         .trim()
         .toLowerCase();
 
