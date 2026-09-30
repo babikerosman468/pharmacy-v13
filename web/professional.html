@@ -435,6 +435,52 @@ footer{
 </head>
 
 <body>
+<script>
+(async function () {
+
+  const token =
+    localStorage.getItem("pharmacy_v13_token");
+
+  if (!token) {
+    window.location.replace("/login.html");
+    return;
+  }
+
+  try {
+
+    const response = await fetch("/api/auth/me", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    if (!response.ok) {
+      localStorage.removeItem("pharmacy_v13_token");
+      localStorage.removeItem("pharmacy_v13_user");
+      window.location.replace("/login.html");
+      return;
+    }
+
+    const result = await response.json();
+
+    if (result.user) {
+      localStorage.setItem(
+        "pharmacy_v13_user",
+        JSON.stringify(result.user)
+      );
+    }
+
+  } catch (_) {
+
+    localStorage.removeItem("pharmacy_v13_token");
+    localStorage.removeItem("pharmacy_v13_user");
+    window.location.replace("/login.html");
+
+  }
+
+})();
+</script>
+
 
 <div class="container">
 
@@ -451,7 +497,7 @@ footer{
 
     <div class="actions">
       <button class="btn" onclick="loadData()">↻ Refresh Data</button>
-      <a class="btn primary" href="/">🔬 Expert / Scientific View</a>
+      <a class="btn primary" href="/control-center">🔬 Expert / Scientific View</a>
     </div>
 
   </div>
@@ -641,11 +687,11 @@ footer{
 
   <div class="quick">
 
-    <a href="/">🏠 Control Center</a>
-    <a href="/?section=medicines">💊 Medicines</a>
-    <a href="/?section=sales">💰 Sales</a>
-    <a href="/?section=inventory">📦 Inventory</a>
-    <a href="/?section=alerts">⚠ Alerts</a>
+    <a href="/control-center">🏠 Control Center</a>
+    <a href="/control-center?section=medicines">💊 Medicines</a>
+    <a href="/control-center?section=sales">💰 Sales</a>
+    <a href="/control-center?section=inventory">📦 Inventory</a>
+    <a href="/control-center?section=alerts">⚠ Alerts</a>
 
   </div>
 

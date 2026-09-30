@@ -98,7 +98,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     localStorage.setItem("pharmacy_v13_token", result.token);
     localStorage.setItem("pharmacy_v13_user", JSON.stringify(result.user));
 
-    window.location.href = "/professional.dashboard";
+    window.location.replace("/professional.dashboard");
 
   } catch (err) {
     error.textContent = err.message || "Login failed";

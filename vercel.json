@@ -40,6 +40,14 @@
   ],
   "routes": [
     {
+      "src": "/api/auth/request",
+      "dest": "/api/auth/request.js"
+    },
+    {
+      "src": "/api/auth/requests",
+      "dest": "/api/auth/requests.js"
+    },
+    {
       "src": "/api/auth/login",
       "dest": "/api/health.js?route=auth-login"
     },
