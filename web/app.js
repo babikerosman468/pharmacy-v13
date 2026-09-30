@@ -1610,7 +1610,7 @@ async function compilePharmacyReport() {
             </thead>
             <tbody>
               ${requests.map(function (r) {
-                const id = r.id;
+                const id = r.id || r.request_id || r.requestId || r.access_request_id;
                 const statusText = String(r.status || "PENDING").toUpperCase();
                 const pending = statusText === "PENDING";
                 return `
