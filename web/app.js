@@ -5,7 +5,7 @@ function getAuthToken() {
 function logout() {
   localStorage.removeItem("pharmacy_v13_token");
   localStorage.removeItem("pharmacy_v13_user");
-  window.location.reload();
+  window.location.href = "/login.html";
 }
 
 async function api(url, options = {}) {
@@ -51,7 +51,7 @@ function esc(x) {
     .replaceAll('"', "&quot;");
 }
 
-function showPage(id) {
+async function showPage(id) {
 
   document
     .querySelectorAll(".page")
@@ -90,8 +90,12 @@ function showPage(id) {
     health: loadHealth
   };
 
-  if (loaders[id])
-    loaders[id]();
+if (loaders[id])
+  await loaders[id]();
+
+if (id === "dashboard")
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
 }
 
 async function loadDashboard() {
@@ -1408,7 +1412,7 @@ async function sellMedicine(name) {
             "pharmacy_v13_user",
             JSON.stringify(result.user)
           );
-window.location.reload();
+window.location.href = "/professional.dashboard";
         } catch (err) {
           error.textContent = err.message || "Login failed";
         }
@@ -1417,8 +1421,11 @@ window.location.reload();
     return;
   }
 
-  loadDashboard();
-
+if (document.getElementById("dashboard")) {
+  setTimeout(() => {
+    loadDashboard();
+  }, 100);
+}
 })();
 
 async function compilePharmacyReport() {
@@ -1444,7 +1451,7 @@ async function compilePharmacyReport() {
         if (result.ok) {
             setTimeout(() => {
                 window.open(
-                    "/api/reports/file?name=pharmacy_report.pdf",
+                    window.location.origin + "/api/reports/file?name=pharmacy_report.pdf",
                     "_blank"
                 );
             }, 500);
@@ -1456,3 +1463,290 @@ async function compilePharmacyReport() {
         }
     }
 }
+
+/* Professional dashboard deep-link handler */
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const section = params.get("section");
+
+  if (!section) return;
+
+  const allowed = [
+    "dashboard", "medicines", "sales", "inventory",
+    "alerts", "suppliers", "purchases", "cash",
+    "sas", "health"
+  ];
+
+  if (!allowed.includes(section)) return;
+
+  window.addEventListener("load", function () {
+    if (typeof showPage === "function") {
+      showPage(section);
+    }
+  });
+})();
+
+/* Administrator Access Requests UI */
+(function () {
+  "use strict";
+
+  function currentUser() {
+    try {
+      return JSON.parse(localStorage.getItem("pharmacy_v13_user") || "{}");
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function isAdministrator() {
+    const u = currentUser();
+    return String(u.role || "").toLowerCase() === "administrator";
+  }
+
+  function token() {
+    return localStorage.getItem("pharmacy_v13_token") || "";
+  }
+
+  async function requestJSON(url, options) {
+    const response = await fetch(url, {
+      ...(options || {}),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token(),
+        ...((options && options.headers) || {})
+      }
+    });
+
+    const text = await response.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch (_) {
+      throw new Error(text || ("HTTP " + response.status));
+    }
+
+    if (!response.ok) {
+      throw new Error(data.error || data.message || ("HTTP " + response.status));
+    }
+
+    return data;
+  }
+
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function ensurePanel() {
+    let overlay = document.getElementById("pv13AccessOverlay");
+    if (overlay) return overlay;
+
+    overlay = document.createElement("div");
+    overlay.id = "pv13AccessOverlay";
+    overlay.className = "pv13-access-overlay";
+    overlay.innerHTML = `
+      <div class="pv13-access-panel">
+        <div class="pv13-access-head">
+          <h2>Access Requests</h2>
+          <button class="pv13-access-close" type="button" aria-label="Close">×</button>
+        </div>
+        <div class="pv13-access-body">
+          <div id="pv13AccessStatus">Loading...</div>
+          <div id="pv13AccessContent"></div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay ||
+          e.target.classList.contains("pv13-access-close")) {
+        overlay.style.display = "none";
+      }
+    });
+
+    return overlay;
+  }
+
+  async function loadRequests() {
+    const status = document.getElementById("pv13AccessStatus");
+    const content = document.getElementById("pv13AccessContent");
+
+    status.textContent = "Loading access requests...";
+    content.innerHTML = "";
+
+    try {
+      const data = await requestJSON("/api/auth/requests");
+      const requests =
+        Array.isArray(data) ? data :
+        Array.isArray(data.requests) ? data.requests :
+        Array.isArray(data.accessRequests) ? data.accessRequests :
+        [];
+
+      if (!requests.length) {
+        status.textContent = "No access requests found.";
+        return;
+      }
+
+      status.textContent = requests.length + " request(s)";
+
+      content.innerHTML = `
+        <div style="overflow:auto;">
+          <table class="pv13-access-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Requested Role</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${requests.map(function (r) {
+                const id = r.id;
+                const statusText = String(r.status || "PENDING").toUpperCase();
+                const pending = statusText === "PENDING";
+                return `
+                  <tr>
+                    <td>${esc(r.name)}</td>
+                    <td>${esc(r.email)}</td>
+                    <td>${esc(r.requested_role || r.role || "viewer")}</td>
+                    <td>${esc(r.created_at || "")}</td>
+                    <td class="pv13-status">${esc(statusText)}</td>
+                    <td>
+                      <a class="pv13-access-action reply" href="mailto:${encodeURIComponent(r.email || "")}?subject=${encodeURIComponent("Pharmacy V13 Access Request")}">Reply</a>
+  ${pending ? `
+                        <button class="pv13-access-action approve"
+                          data-action="approve"
+                          data-id="${esc(id)}">Approve</button>
+                        <button class="pv13-access-action reject"
+                          data-action="reject"
+                          data-id="${esc(id)}">Reject</button>
+                      ` : "—"}
+                    </td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      content.querySelectorAll("[data-action]").forEach(function (button) {
+        button.addEventListener("click", async function () {
+          const action = button.dataset.action;
+          const id = button.dataset.id;
+
+          if (action === "reject") {
+            if (!confirm("Reject this access request?")) return;
+
+            try {
+              await requestJSON("/api/auth/requests", {
+                method: "POST",
+                body: JSON.stringify({
+                  action: "REJECT",
+                  id: id
+                })
+              });
+              await loadRequests();
+            } catch (e) {
+              alert("Reject failed: " + e.message);
+            }
+            return;
+          }
+
+          const username = prompt(
+            "Username for the new account:"
+          );
+          if (!username) return;
+
+          const password = prompt(
+            "Password for the new account (minimum 8 characters):"
+          );
+          if (!password) return;
+
+          if (password.length < 8) {
+            alert("Password must contain at least 8 characters.");
+            return;
+          }
+
+          if (!confirm(
+            "Approve this request and create the account?"
+          )) return;
+
+          try {
+            await requestJSON("/api/auth/requests", {
+              method: "POST",
+              body: JSON.stringify({
+                action: "APPROVE",
+                id: id,
+                username: username,
+                password: password
+              })
+            });
+            await loadRequests();
+          } catch (e) {
+            alert("Approval failed: " + e.message);
+          }
+        });
+      });
+
+    } catch (e) {
+      status.textContent = "Unable to load access requests.";
+      content.innerHTML =
+        '<div style="color:#9a2525;">' +
+        esc(e.message) +
+        "</div>";
+    }
+  }
+
+  function openRequests() {
+    if (!isAdministrator()) return;
+
+    const overlay = ensurePanel();
+    overlay.style.display = "block";
+    loadRequests();
+  }
+
+  function addButton() {
+    if (!isAdministrator()) return;
+    if (document.getElementById("pv13AccessRequestsButton")) return;
+
+    const button = document.createElement("button");
+    button.id = "pv13AccessRequestsButton";
+    button.type = "button";
+    button.className = "pv13-access-requests-btn";
+    button.textContent = "📩 Access Requests";
+    button.addEventListener("click", openRequests);
+
+    const candidates = Array.from(
+      document.querySelectorAll("button, a")
+    );
+
+    const refresh = candidates.find(function (el) {
+      return /refresh data/i.test(el.textContent || "");
+    });
+
+    if (refresh && refresh.parentElement) {
+      refresh.parentElement.appendChild(button);
+      return;
+    }
+
+    document.body.appendChild(button);
+  }
+
+  window.openPharmacyAccessRequests = openRequests;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", addButton);
+  } else {
+    addButton();
+  }
+})();

@@ -284,3 +284,100 @@ footer {
   margin-bottom: 8px;
 }
 
+
+/* Administrator Access Requests */
+.pv13-access-requests-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-left:10px;
+  padding:9px 13px;
+  border:1px solid rgba(128,0,0,.25);
+  border-radius:8px;
+  background:#fff;
+  color:#800000;
+  font-weight:700;
+  cursor:pointer;
+}
+.pv13-access-requests-btn:hover {
+  background:#faf5f5;
+}
+.pv13-access-overlay {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  padding:24px;
+  background:rgba(0,0,0,.45);
+  overflow:auto;
+}
+.pv13-access-panel {
+  max-width:1100px;
+  margin:30px auto;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.pv13-access-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:18px 22px;
+  border-bottom:1px solid #eee;
+}
+.pv13-access-head h2 {
+  margin:0;
+  color:#800000;
+}
+.pv13-access-body {
+  padding:20px;
+}
+.pv13-access-close {
+  border:0;
+  background:transparent;
+  font-size:24px;
+  cursor:pointer;
+}
+.pv13-access-table {
+  width:100%;
+  border-collapse:collapse;
+}
+.pv13-access-table th,
+.pv13-access-table td {
+  padding:10px 9px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  vertical-align:top;
+}
+.pv13-access-table th {
+  background:#f7f7f7;
+}
+.pv13-status {
+  font-weight:700;
+}
+.pv13-access-action {
+  padding:7px 10px;
+  margin:2px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  background:#fff;
+  cursor:pointer;
+}
+.pv13-access-action.approve {
+  color:#176b36;
+  border-color:#b9d9c2;
+}
+.pv13-access-action.reject {
+  color:#9a2525;
+  border-color:#e2bcbc;
+}
+@media (max-width:700px) {
+  .pv13-access-overlay { padding:8px; }
+  .pv13-access-panel { margin:8px auto; }
+  .pv13-access-table { font-size:13px; }
+  .pv13-access-table th:nth-child(4),
+  .pv13-access-table td:nth-child(4) { display:none; }
+}
+.pv13-access-action.reply{color:#4682B4;border-color:#b9cfe3;text-decoration:none;display:inline-block}.pv13-access-action.reply:hover{background:#f3f7fa}
