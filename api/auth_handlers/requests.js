@@ -132,7 +132,7 @@ module.exports = async function handler(req, res) {
         SET
           status = 'REJECTED',
           reviewed_at = CURRENT_TIMESTAMP,
-          reviewed_by = ${Number(user.sub)}
+          reviewed_by = ${user.sub}
         WHERE id = ${requestId}
       `;
 
@@ -215,7 +215,7 @@ module.exports = async function handler(req, res) {
       SET
         status = 'APPROVED',
         reviewed_at = CURRENT_TIMESTAMP,
-        reviewed_by = ${Number(user.sub)}
+        reviewed_by = ${user.sub}
       WHERE id = ${requestId}
     `;
 
