@@ -1652,7 +1652,7 @@ async function compilePharmacyReport() {
                 method: "POST",
                 body: JSON.stringify({
                   action: "REJECT",
-                  id: id
+                  requestId: Number(id)
                 })
               });
               await loadRequests();
@@ -1686,7 +1686,7 @@ async function compilePharmacyReport() {
               method: "POST",
               body: JSON.stringify({
                 action: "APPROVE",
-                id: id,
+                requestId: Number(id),
                 username: username,
                 password: password
               })
