@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REEM Research Lab</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+body {
+    background: #f5f7fa;
+}
+.reem-wrap {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+.reem-header {
+    background: linear-gradient(135deg,#800000,#4682B4);
+    color: white;
+    padding: 28px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+.warning {
+    background: #fff3cd;
+    border: 1px solid #e0b100;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 12px;
+}
+button {
+    padding: 13px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#output {
+    margin-top: 20px;
+    background: #111;
+    color: #eee;
+    padding: 18px;
+    border-radius: 10px;
+    overflow: auto;
+    min-height: 180px;
+    white-space: pre-wrap;
+}
+a.back {
+    display: inline-block;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="reem-wrap">
+
+<div class="reem-header">
+    <h1>🧪 REEM Research Lab</h1>
+    <p>Research • Decision Science • Simulation • Management Intelligence</p>
+</div>
+
+<div class="warning">
+    <strong>Research / Development Layer</strong><br>
+    REEM V2 uses simulated development datasets. Its outputs are
+    <strong>not operational observations</strong> and must not be used
+    as direct procurement or pharmacy-control decisions.
+</div>
+
+<h2>Decision Science Models</h2>
+
+<div class="grid">
+    <button onclick="runModel('forecast')">Forecast</button>
+    <button onclick="runModel('monteCarlo')">Monte Carlo Risk</button>
+    <button onclick="runModel('reorderPoint')">Reorder Point</button>
+    <button onclick="runModel('safetyStock')">Safety Stock</button>
+    <button onclick="runModel('expiryRisk')">Expiry Risk</button>
+    <button onclick="runModel('abc')">ABC Analysis</button>
+    <button onclick="runModel('eoq')">EOQ Model</button>
+    <button onclick="runModel('ai')">AI Decision Dashboard</button>
+</div>
+
+<h2>Supply Chain Research</h2>
+
+<div class="grid">
+    <button onclick="runMode('summary')">Research Summary</button>
+    <button onclick="runMode('drugs')">Drug Intelligence</button>
+    <button onclick="runMode('suppliers')">Supplier Intelligence</button>
+    <button onclick="runMode('readiness')">Model Readiness</button>
+    <button onclick="runMode('unmatched')">Unmatched Sales Research</button>
+</div>
+
+<pre id="output">Select a research model.</pre>
+
+<a class="back" href="/control-center">← Return to Pharmacy V13 Control Center</a>
+
+</div>
+
+<script>
+const token = localStorage.getItem("pharmacy_v13_token");
+
+async function request(url) {
+    const res = await fetch(url, {
+        headers: token ? {
+            "Authorization": "Bearer " + token
+        } : {}
+    });
+
+    const text = await res.text();
+
+    if (!res.ok) {
+        throw new Error(text || ("HTTP " + res.status));
+    }
+
+    try {
+        return JSON.parse(text);
+    } catch {
+        return text;
+    }
+}
+
+async function runModel(name) {
+    const output = document.getElementById("output");
+    output.textContent = "Running " + name + "...";
+
+    try {
+        const data = await request(
+            "/api/intelligence?mode=" + encodeURIComponent(name)
+        );
+
+        output.textContent = JSON.stringify(data, null, 2);
+    } catch (e) {
+        output.textContent = "ERROR\n" + e.message;
+    }
+}
+
+async function runMode(name) {
+    const output = document.getElementById("output");
+    output.textContent = "Loading " + name + "...";
+
+    try {
+        const data = await request(
+            "/api/intelligence?mode=" + encodeURIComponent(name)
+        );
+
+        output.textContent = JSON.stringify(data, null, 2);
+    } catch (e) {
+        output.textContent = "ERROR\n" + e.message;
+    }
+}
+</script>
+
+</body>
+</html>
