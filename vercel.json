@@ -40,6 +40,10 @@
   ],
   "routes": [
     {
+      "src": "/contact.html",
+      "dest": "/web/contact.html"
+    },
+    {
       "src": "/api/auth/request",
       "dest": "/api/auth/request.js"
     },
