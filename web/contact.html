@@ -4,62 +4,229 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pharmacy V13 — Contact</title>
+
 <style>
+*{box-sizing:border-box}
+
 body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f5f7fa;
-  font-family:Arial,sans-serif;
-  color:#1f2937;
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
+    color:#243447;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
 }
-.card{
-  width:min(92%,520px);
-  background:white;
-  padding:40px 32px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
+
+.contact-card{
+    width:100%;
+    max-width:520px;
+    background:white;
+    border-radius:14px;
+    padding:32px;
+    box-shadow:0 8px 30px rgba(0,0,0,.10);
 }
-h1{margin:0 0 8px}
-h2{margin:0 0 24px;color:#555;font-weight:500}
-p{line-height:1.6}
+
+h1{
+    margin:0 0 8px;
+    color:#123b5d;
+    font-size:28px;
+}
+
+h2{
+    margin:0 0 20px;
+    font-size:22px;
+}
+
+.intro{
+    line-height:1.6;
+    margin-bottom:24px;
+}
+
+label{
+    display:block;
+    font-weight:600;
+    margin:15px 0 7px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccd5df;
+    border-radius:8px;
+    font:inherit;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    margin-top:22px;
+    padding:13px;
+    border:0;
+    border-radius:8px;
+    background:#123b5d;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:wait;
+}
+
 .back{
-  display:inline-block;
-  margin-top:24px;
-  padding:11px 22px;
-  border-radius:8px;
-  background:#800000;
-  color:white;
-  text-decoration:none;
+    display:inline-block;
+    margin-top:18px;
+    text-decoration:none;
+    color:#123b5d;
+}
+
+.message{
+    margin-top:18px;
+    padding:13px;
+    border-radius:8px;
+    display:none;
+    line-height:1.5;
+}
+
+.success{
+    display:block;
+    background:#eaf7ee;
+    color:#176b35;
+}
+
+.error{
+    display:block;
+    background:#fdecec;
+    color:#9b2226;
 }
 </style>
 </head>
 
 <body>
-<div class="card">
 
-  <h1>💊 PHARMACY V13</h1>
-  <h2>Contact</h2>
+<div class="contact-card">
 
-  <p>
-    New visitor?
-  </p>
+    <h1>💊 PHARMACY V13</h1>
+    <h2>Contact</h2>
 
-  <p>
-    For <strong>Viewer access</strong> to Pharmacy V13,
-    please contact the system administrator.
-  </p>
+    <div class="intro">
+        <strong>New visitor?</strong><br>
+        For <strong>Viewer access</strong> to Pharmacy V13, please contact
+        the system administrator.<br>
+        Viewer accounts provide read-only access for exploring the platform.
+    </div>
 
-  <p>
-    Viewer accounts provide read-only access for exploring
-    the platform.
-  </p>
+    <form id="accessRequestForm">
 
-  <a class="back" href="/login.html">← Back to Login</a>
+        <label for="name">Name</label>
+        <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder="Your name">
+
+        <label for="email">Email</label>
+        <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="your@email.com">
+
+        <label for="role">Requested Role</label>
+        <select id="role" name="requested_role">
+            <option value="viewer" selected>Viewer — Read only</option>
+            <option value="analyst">Analyst</option>
+            <option value="manager">Manager</option>
+        </select>
+
+        <label for="message">Message</label>
+        <textarea
+            id="message"
+            name="message"
+            placeholder="Optional message"></textarea>
+
+        <button id="submitButton" type="submit">
+            Submit Access Request
+        </button>
+
+    </form>
+
+    <div id="responseMessage" class="message"></div>
+
+    <a class="back" href="/login.html">← Back to Login</a>
 
 </div>
+
+<script>
+const form = document.getElementById("accessRequestForm");
+const button = document.getElementById("submitButton");
+const message = document.getElementById("responseMessage");
+
+form.addEventListener("submit", async function(event){
+
+    event.preventDefault();
+
+    message.className = "message";
+    message.textContent = "";
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    const payload = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        requested_role: document.getElementById("role").value,
+        message: document.getElementById("message").value.trim()
+    };
+
+    try {
+
+        const response = await fetch("/api/auth/request", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Unable to submit access request."
+            );
+        }
+
+        form.style.display = "none";
+
+        message.className = "message success";
+        message.innerHTML =
+            "<strong>Request submitted successfully.</strong><br>" +
+            "Your access request has been sent to the system administrator. " +
+            "You will be contacted after review.";
+
+    } catch (error) {
+
+        message.className = "message error";
+        message.textContent = error.message;
+
+        button.disabled = false;
+        button.textContent = "Submit Access Request";
+    }
+});
+</script>
+
 </body>
 </html>
